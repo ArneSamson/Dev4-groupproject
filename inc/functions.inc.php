@@ -19,3 +19,4 @@ function canLogIn($p_username, $p_password){
         $error = $e->getMessage();
     }
 }
+

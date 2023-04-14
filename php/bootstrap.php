@@ -7,4 +7,4 @@
     });
 
     //start de sessie
-    session_start();
+    // session_start();

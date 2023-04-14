@@ -17,14 +17,23 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
-    
+    <h1>Login</h1>
+    <?php if(isset($error)): ?>
+        <p>Invalid username or password</p>
+    <?php endif; ?>
+    <form method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <br>
+        <input type="submit" value="Log in">
+    </form>
 </body>
 </html>
