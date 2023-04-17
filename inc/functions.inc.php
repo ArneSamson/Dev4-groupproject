@@ -8,10 +8,15 @@ function canLogIn($p_username, $p_password){
         $statement->bindValue(":username", $p_username);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-        $hash = $result['password'];
-        if(password_verify($p_password, $hash)){
-            return true;
-        }else{
+
+        if ($result !== false) {
+            $hash = $result['password'];
+            if(password_verify($p_password, $hash)){
+                return true;
+            }else{
+                return false;
+            }
+        } else {
             return false;
         }
     }
@@ -19,4 +24,6 @@ function canLogIn($p_username, $p_password){
         $error = $e->getMessage();
     }
 }
+
+?>
 
