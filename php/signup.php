@@ -1,29 +1,47 @@
 <?php
 
+require_once 'bootstrap.php';
+
+
 if(!empty($_POST)){
 
     $username = $_POST["username"];
+    $email = $_POST["email"];
 
-    $options = [
-        'cost' => 12,
-    ];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
+    // Validate email address
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $error = "Please enter a valid email address";
+    } else {
+
+        $options = [
+            'cost' => 12,
+        ];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
 
 
-    try{
-        $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-        $statement->bindValue(":username", $username); //SQL injection protection
-        $statement->bindValue(":password", $password);
-        $statement->execute();
-        header("Location: login.php");
+        try{
+            $conn = Db::getInstance();
+			if ($conn) {
+				echo "Database connection successful!";
+			} else {
+				echo "Database connection failed!";
+			}
+            $statement = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+            $statement->bindValue(":username", $username); //SQL injection protection
+            $statement->bindValue(":email", $email);
+            $statement->bindValue(":password", $password);
+            $statement->execute();
+            header("Location: login.php");
 
-    }
-    catch(Throwable $e){
-        $error = $e->getMessage();
+        }
+        catch(Throwable $e){
+            $error = "There was an error processing your request. Please try again later.";
+        }
     }
 }
 ?>
+
+<!DOCTYPE html>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +59,7 @@ if(!empty($_POST)){
                 <?php if( isset($error) ) : ?>
                     <div class="form__error">
                         <p>
-                            Sorry, we can't log you in with that email address and password. Can you try again?
+                            <?php echo $error; ?>
                         </p>
                     </div>
                 <?php endif; ?>
@@ -49,6 +67,10 @@ if(!empty($_POST)){
                 <div class="form__field">
                     <label for="Username">Username</label>
                     <input type="text" name="username">
+                </div>
+                <div class="form__field">
+                    <label for="Email">Email</label>
+                    <input type="email" name="email">
                 </div>
                 <div class="form__field">
                     <label for="Password">Password</label>

@@ -1,9 +1,8 @@
 <?php
 
 function canLogIn($p_username, $p_password){
-
     try{
-        $conn = new PDO("mysql:host=com-linweb551.srv.combell-ops.net:3306;dbname=ID378949_dev4LLA", "ID378949_user", "l7Og55u74e801mN990rU");
+        $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
         $statement->bindValue(":username", $p_username);
         $statement->execute();
@@ -19,11 +18,8 @@ function canLogIn($p_username, $p_password){
         } else {
             return false;
         }
-    }
-    catch(Throwable $e){
+    } catch(Throwable $e){
         $error = $e->getMessage();
     }
 }
-
 ?>
-
