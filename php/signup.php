@@ -40,8 +40,7 @@ if(!empty($_POST)){
 
 </head>
 <body>
-<button class="bg-red-500">Sign up</button>
-
+<button class="my_color">Sign up</button>
     <div class="netflixLogin">
         <div class="form form--login">
             <form action="" method="post">
