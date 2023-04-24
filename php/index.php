@@ -1,5 +1,5 @@
 <?php
 
-    require_once 'bootstrap.php';
-    
+include_once("bootstrap.php");
+
 ?>

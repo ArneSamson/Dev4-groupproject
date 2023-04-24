@@ -1,31 +1,20 @@
 <?php
 
-require_once 'bootstrap.php';
-
+include_once(__DIR__ . '/bootstrap.php');
 
 if(!empty($_POST)){
 
     $username = $_POST["username"];
     $email = $_POST["email"];
-
-    // Validate email address
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        $error = "Please enter a valid email address";
-    } else {
-
-        $options = [
+  
+    $options = [
             'cost' => 12,
         ];
-        $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
 
 
         try{
             $conn = Db::getInstance();
-			if ($conn) {
-				echo "Database connection successful!";
-			} else {
-				echo "Database connection failed!";
-			}
             $statement = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
             $statement->bindValue(":username", $username); //SQL injection protection
             $statement->bindValue(":email", $email);
@@ -35,10 +24,9 @@ if(!empty($_POST)){
 
         }
         catch(Throwable $e){
-            $error = "There was an error processing your request. Please try again later.";
+            $error = "Error";
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
