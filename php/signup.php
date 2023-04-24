@@ -35,10 +35,13 @@ if(!empty($_POST)){
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>IMDFlix</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Register</title>
+    <link rel="stylesheet" href="../styles.css">
+
 </head>
 <body>
+<button class="bg-red-500">Sign up</button>
+
     <div class="netflixLogin">
         <div class="form form--login">
             <form action="" method="post">
