@@ -2,11 +2,12 @@
 
 class User {
     private $id;
-    private string $username;
-    private string $email;
-    private bool $emailVerified;
-    private string $password;
-    private string $profilepictureUrl;
+    private $username;
+    private $email;
+    private $emailVerified;
+    private $password;
+    private $profilepictureUrl;
+    private $savedPrompts;
 
     public function setUsername($p_susername){
         if(empty($p_susername))
@@ -44,6 +45,10 @@ class User {
         $this->emailVerified = $emailVerified;
     }
 
+    public function setSavedPrompts($savedPrompts) {
+        $this->savedPrompts = $savedPrompts;
+    }
+
     public function isEmailVerified() {
         return $this->emailVerified;
     }
@@ -53,17 +58,67 @@ class User {
     }
 
     public function getId() {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
+        $statement->bindValue(":email", $this->email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $this->id = $result['id'];
         return $this->id;
     }
 
     public function getUsername() {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT username FROM users WHERE email = :email");
+        $statement->bindValue(":email", $this->email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $this->username = $result['username'];
         return $this->username;
     }
 
     public function getEmail() {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT email FROM users WHERE email = :email");
+        $statement->bindValue(":email", $this->email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $this->email = $result['email'];
         return $this->email;
     }
 
+    public function getSavedPrompts() {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT savedPrompts FROM users WHERE email = :email");
+        $statement->bindValue(":email", $this->email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $this->savedPrompts = $result['savedPrompts'];
+        return $this->savedPrompts;
+    }
+    
+    public static function getById($id) {
+        // code to retrieve the user from the database based on their id, including emailVerified and profilePictureUrl
+        
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE id = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+    public static function getByEmail($email) {
+        // code to retrieve the user from the database based on their email, including emailVerified and profilePictureUrl
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+        
+    }
+    
     public function save(){
         $conn = Db::getInstance();
         $statement = $conn->prepare("INSERT INTO users (username, email, password, profilepictureUrl) VALUES (:username, :email, :password, :profilepictureUrl)");
@@ -74,15 +129,6 @@ class User {
         $result = $statement->execute();
         return $result;
     }
-
-    public static function getById($id) {
-        // code to retrieve the user from the database based on their id, including emailVerified and profilePictureUrl
-    }
-
-    public static function getByEmail($email) {
-        // code to retrieve the user from the database based on their email, including emailVerified and profilePictureUrl
-    }
-
-
-
+    
+    
 }
