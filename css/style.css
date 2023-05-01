@@ -29,7 +29,7 @@ body {
 
 .form__title {
     font-size: 24px;
-    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .form__field {
@@ -150,4 +150,9 @@ nav .nav-buttons .logout-button a {
 .upload-button .button-gradient:hover {
     background-color: #00FFCB;
     background-image: none;
+}
+
+
+.form__title {
+    margin-bottom: 20px;
 }
