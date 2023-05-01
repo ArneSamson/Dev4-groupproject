@@ -3,7 +3,7 @@
         'name' => 'ladis/dev4-groupproject',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'fb5e42aa1c40d5dc538f3d6fc993fc42439bf115',
+        'reference' => 'aebc208390bb9afc5f3dc36ef8c07ff860119604',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'ladis/dev4-groupproject' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'fb5e42aa1c40d5dc538f3d6fc993fc42439bf115',
+            'reference' => 'aebc208390bb9afc5f3dc36ef8c07ff860119604',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
