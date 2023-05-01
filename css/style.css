@@ -88,71 +88,75 @@ body {
 }
 
 
-nav {
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 70px;
     padding: 0 50px;
     background: linear-gradient(to bottom right, #6B78FF, #00FFCB);
+    z-index: 1;
 }
 
-nav .logo img {
-    height: 50px;
+.navbar__logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-nav .nav-buttons {
+.navbar__menu {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-nav .nav-buttons .credit-counter {
-    margin-right: auto;
+.navbar__menu a {
     color: #fff;
-    font-size: 20px;
-    margin-right: 50px;
-}
-
-nav .nav-buttons .profile-button a {
-    display: block;
-    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 20px;
     text-decoration: none;
-    font-size: 20px;
-    margin-right: 50px;
+    transition: all 0.3s ease;
 }
 
-nav .nav-buttons .logout-button a {
-    display: block;
+.navbar__menu a:hover {
+    color: #2ecc71;
+}
+
+.navbar__toggle {
     color: #fff;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.upload-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.upload-button .button-gradient {
-    display: inline-block;
-    background-color: #6B78FF;
-    background-image: linear-gradient(to bottom right, #6B78FF, #00FFCB);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    font-size: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-decoration: none;
-}
-
-.upload-button .button-gradient:hover {
-    background-color: #00FFCB;
-    background-image: none;
+    display: none;
 }
 
 
-.form__title {
-    margin-bottom: 20px;
+.btn--upload {
+    background-color: #6B78FF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
 }
+
+.btn--upload:hover {
+    background-color: #fff;
+    color: #6B78FF;
+    border: 2px solid #6B78FF;
+}
+
+.btn--upload:active {
+    background-color: #fff;
+    color: #6B78FF;
+    border: 2px solid #6B78FF;
+}
+

@@ -25,14 +25,6 @@ if (!empty($_POST)) {
         $statement->bindValue(":emailVerification", $verificationCode);
         $statement->execute();
 
-        // Create new user object
-        $user = new User();
-        $user->setId($userData['id']);
-        $user->setUsername($userData['username']);
-        $user->setEmail($userData['email']);
-        $user->setEmailVerified($userData['email_verified']);
-        $user->setPassword($userData['password']);
-
         // Send verification email
         $emailVerification = new EmailVerification('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');
         $emailVerification->sendVerificationEmail($username, $email, $verificationCode);
