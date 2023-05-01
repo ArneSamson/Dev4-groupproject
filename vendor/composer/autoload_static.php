@@ -24,6 +24,10 @@ class ComposerStaticInit47a82bc8924faab62e6ad83bab8e8a72
         array (
             'Ladis\\Dev4Groupproject\\' => 23,
         ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -54,6 +58,10 @@ class ComposerStaticInit47a82bc8924faab62e6ad83bab8e8a72
         'Ladis\\Dev4Groupproject\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 

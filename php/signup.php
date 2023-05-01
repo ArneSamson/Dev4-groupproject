@@ -1,9 +1,7 @@
 <?php
 
 include_once(__DIR__ . '/bootstrap.php');
-require_once(__DIR__ . '/../vendor/autoload.php');
 
-use SendGrid\Mail\Mail;
 
 if (!empty($_POST)) {
     $username = $_POST["username"];
@@ -26,24 +24,16 @@ if (!empty($_POST)) {
         $statement->bindValue(":password", $password);
         $statement->bindValue(":emailVerification", $verificationCode);
         $statement->execute();
-        var_dump($statement);
 
         // Send verification email
-        $email = new \SendGrid\Mail\Mail(); 
-        $email->setFrom("ladiske@hotmail.com", "Ladis");
-        $email->setSubject("Verify your email address");
-        $email->addTo($email, $username);
-        $email->addContent("text/plain", "Thank you for signing up! Please click on the following link to verify your email address: http://your-website.com/verify.php?code=$verificationCode");
-        $email->addContent("text/html", "<p>Thank you for signing up!</p><p>Please click on the following link to verify your email address: <a href='http://your-website.com/verify.php?code=$verificationCode'>http://your-website.com/verify.php?code=$verificationCode</a></p>");
-        $apiKey = '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';
-        $sendgrid = new \SendGrid($apiKey);
-        $response = $sendgrid->send($email);
+        $emailVerification = new EmailVerification('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');
+        $emailVerification->sendVerificationEmail($username, $email, $verificationCode);
 
         // Redirect to login page
         header("Location: login.php");
         exit();
     } catch (Throwable $e) {
-        $error = "Error sending verification email";
+        $error = $e->getMessage();
     }
 }
 
