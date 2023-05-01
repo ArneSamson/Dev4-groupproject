@@ -6,12 +6,16 @@ if(!empty($_POST)){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if(canLogIn($username, $password)){
+    $result = canLogIn($username, $password);
+
+    if($result === true){
         session_start();
         $_SESSION['loggedin'] = true;
         header("Location: index.php");
-    }else{
+    }elseif($result === false){
         $error = true;
+    }elseif($result === 'unverified'){
+        $unverified = true;
     }
 };
 ?>
@@ -30,6 +34,10 @@ if(!empty($_POST)){
         <?php if(isset($error)): ?>
             <div class="form__error">
                 <p>Invalid username or password</p>
+            </div>
+        <?php elseif(isset($unverified)): ?>
+            <div class="form__error">
+                <p>Please verify your email address</p>
             </div>
         <?php endif; ?>
 
