@@ -8,7 +8,7 @@ include_once("bootstrap.php");
 <html>
 <head>
 	<title>AI Prompt Home</title>
-	<link rel="stylesheet" type="text/css" href="css/home.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 	<nav class="navbar">
