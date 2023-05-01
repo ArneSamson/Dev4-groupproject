@@ -1,3 +1,153 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #6B78FF, #00FFCB);
+}
+
+
+.form {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 400px;
+}
+
+.form__title {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.form__field {
+    margin-bottom: 20px;
+}
+
+.form__field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form__field input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form__field input:focus {
+    border-color: #2ecc71;
+}
+
+.form__field .form__error {
+    color: #c0392b;
+    margin-top: 5px;
+}
+
+.form__field input[type="submit"] {
+    display: inline-block;
+    background-color: #6B78FF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form__field input[type="submit"]:hover {
+    background-color: #00FFCB;
+}
+
+.form__button {
+    background-color: #6B78FF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form__button:hover {
+    background-color: #fff;
+    color: #6B78FF;
+    border: 2px solid #6B78FF;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 50px;
+    background: linear-gradient(to bottom right, #6B78FF, #00FFCB);
+}
+
+nav .logo img {
+    height: 50px;
+}
+
+nav .nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+nav .nav-buttons .credit-counter {
+    margin-right: auto;
+    color: #fff;
+    font-size: 20px;
+    margin-right: 50px;
+}
+
+nav .nav-buttons .profile-button a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    margin-right: 50px;
+}
+
+nav .nav-buttons .logout-button a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.upload-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.upload-button .button-gradient {
+    display: inline-block;
+    background-color: #6B78FF;
+    background-image: linear-gradient(to bottom right, #6B78FF, #00FFCB);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.upload-button .button-gradient:hover {
+    background-color: #00FFCB;
+    background-image: none;
+}

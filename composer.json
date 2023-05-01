@@ -1,0 +1,17 @@
+{
+    "name": "ladis/dev4-groupproject",
+    "autoload": {
+        "psr-4": {
+            "Ladis\\Dev4Groupproject\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ladis Nelissen",
+            "email": "ladisnelissen@hotmail.com"
+        }
+    ],
+    "require": {
+        "sendgrid/sendgrid": "^8.0"
+    }
+}

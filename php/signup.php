@@ -8,71 +8,59 @@ if(!empty($_POST)){
     $email = $_POST["email"];
   
     $options = [
-            'cost' => 12,
-        ];
+        'cost' => 12,
+    ];
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
 
+    try{
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+        $statement->bindValue(":username", $username); //SQL injection protection
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":password", $password);
+        $statement->execute();
 
-        try{
-            $conn = Db::getInstance();
-            $statement = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
-            $statement->bindValue(":username", $username); //SQL injection protection
-            $statement->bindValue(":email", $email);
-            $statement->bindValue(":password", $password);
-            $statement->execute();
-            header("Location: login.php");
-
-        }
-        catch(Throwable $e){
-            $error = "Error";
-        }
+        // Redirect to login page
+        header("Location: login.php");
+        exit();
+       
+       
     }
+    catch(Throwable $e){
+        $error = "Error sending verification email";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
-
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Register</title>
-    <link rel="stylesheet" href="../styles.css">
-
+    <title>AI Prompt Home</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css">
 </head>
 <body>
-<button class="my_color">Sign up</button>
-    <div class="netflixLogin">
-        <div class="form form--login">
-            <form action="" method="post">
-                <h2 form__title>Sign up</h2>
-
-                <?php if( isset($error) ) : ?>
-                    <div class="form__error">
-                        <p>
-                            <?php echo $error; ?>
-                        </p>
-                    </div>
-                <?php endif; ?>
-
-                <div class="form__field">
-                    <label for="Username">Username</label>
-                    <input type="text" name="username">
-                </div>
-                <div class="form__field">
-                    <label for="Email">Email</label>
-                    <input type="email" name="email">
-                </div>
-                <div class="form__field">
-                    <label for="Password">Password</label>
-                    <input type="password" name="password">
-                </div>
-
-                <div class="form__field">
-                    <input type="submit" value="Sign up" class="btn btn--primary">    
-                    <!-- <input type="checkbox" id="rememberMe"><label for="rememberMe" class="label__inline">Remember me</label> -->
-                </div>
-            </form>
+    <nav>
+        <div class="logo">
+            <img src="img/logo.png">
         </div>
+        <div class="nav-buttons">
+            <div class="credit-counter">
+                Credits: 0
+            </div>
+            <div class="profile-button">
+                <a href="#">Profile</a>
+            </div>
+            <div class="logout-button">
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="upload-button">
+        <a href="#" class="button-gradient">Upload Prompt</a>
     </div>
+
 </body>
 </html>
+
