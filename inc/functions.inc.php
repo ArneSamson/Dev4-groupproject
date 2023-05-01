@@ -29,7 +29,7 @@ function canLogIn($p_username, $p_password)
     }
 }
 
-function updateUser($id, $username, $email, $password)
+function updateUser($user_id, $username, $email, $password, $conn)
 {
     try {
         $conn = Db::getInstance();
@@ -38,7 +38,7 @@ function updateUser($id, $username, $email, $password)
         $statement->bindValue(":username", $username);
         $statement->bindValue(":email", $email);
         $statement->bindValue(":password", $hash);
-        $statement->bindValue(":id", $id);
+        $statement->bindValue(":id", $user_id);
         $statement->execute();
         return true;
     } catch (Throwable $e) {
