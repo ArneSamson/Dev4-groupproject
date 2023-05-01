@@ -26,11 +26,12 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if (updateUser($user_id, $username, $email, $password)) {
+    if (updateUser($user_id, $username, $email, $password, $conn)) {
         $success = true;
     } else {
         $error = true;
     }
+    
 }
 ?>
 

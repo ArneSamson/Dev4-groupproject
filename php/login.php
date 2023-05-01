@@ -11,6 +11,7 @@ if(!empty($_POST)){
     if($result === true){
         session_start();
         $_SESSION['loggedin'] = true;
+        var_dump($user_id);
         header("Location: index.php");
     }elseif($result === false){
         $error = true;
