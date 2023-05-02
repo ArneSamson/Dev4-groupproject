@@ -147,12 +147,7 @@ class User {
         return $result;
     }
     
-<<<<<<< HEAD
     public function getVerificationCode() {
         return $this->verificationCode;
     }
-=======
-    
-    
->>>>>>> 838bf65 (fix: trying to fix directing to login pag)
 }
