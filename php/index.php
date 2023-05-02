@@ -2,6 +2,13 @@
 
 include_once("bootstrap.php");
 
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+    $profile_url = "../php/profile.php?user_id=" . $user_id;
+} else {
+    $profile_url = "../php/profile.php?user_id=";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +22,7 @@ include_once("bootstrap.php");
 		<div class="navbar__logo">Prompt Engine</div>
 		<div class="navbar__buttons">
 			<div class="navbar__button navbar__button--credit">Credits: 0</div>
-			<a href="#" class="navbar__button navbar__button--profile">Profile</a>
+			<a href="<?php echo $$profile_url; ?>">Edit Profile</a>
 			<a href="#" class="navbar__button navbar__button--logout">Log out</a>
 		</div>
 	</nav>
