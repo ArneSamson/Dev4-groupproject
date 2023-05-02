@@ -8,37 +8,55 @@ class User {
     private $password;
     private $profilepictureUrl;
     private $savedPrompts;
+    private $verificationCode;
 
-    public function setUsername($p_susername){
-        if(empty($p_susername))
-            throw new Exception("Firstname cannot be empty");
-        else{
-            $this->username = $p_susername;
-            }
+
+    public function __construct($username, $email, $password) {
+        $this->setUsername($username);
+        $this->setEmail($email);
+        $this->setPassword($password);
+    }
+    
+    public function setUsername($username) {
+        if (empty($username)) {
+            throw new Exception("Username cannot be empty");
+        }
+        
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT id FROM users WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            throw new Exception("Username already taken");
+        }
+        
+        $this->username = $username;
     }
 
-    public function setProfilePicture($p_sprofilepicture){
-        if(empty($p_sprofilepicture))
+    public function setProfilePicture($profilepictureUrl) {
+        if(empty($profilepictureUrl))
             throw new Exception("Profile picture cannot be empty");
         else{
-            $this->profilepictureUrl = $p_sprofilepicture;
-            }
+            $this->profilepictureUrl = $profilepictureUrl;
+        }
     }
 
-    public function setPassword($p_spassword){
-        if(empty($p_spassword))
+    public function setPassword($password) {
+        if(empty($password))
             throw new Exception("Password cannot be empty");
         else{
-            $this->password = $p_spassword;
-            }
+            $this->password = $password;
+        }
     }
 
-    public function setEmail($p_semail){
-        if(empty($p_semail))
+    public function setEmail($email) {
+        if(empty($email))
             throw new Exception("Email cannot be empty");
         else{
-            $this->email = $p_semail;
-            }
+            $this->email = $email;
+        }
     }
 
     public function setEmailVerified($emailVerified) {
@@ -51,10 +69,6 @@ class User {
 
     public function isEmailVerified() {
         return $this->emailVerified;
-    }
-
-    public function setId(){
-        $this->id = "placeholder";
     }
 
     public function getId() {
@@ -119,16 +133,21 @@ class User {
         
     }
     
-    public function save(){
+    public function register(){
+
+        $verificationCode = bin2hex(random_bytes(32));
+
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (username, email, password, profilepictureUrl) VALUES (:username, :email, :password, :profilepictureUrl)");
+        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification) VALUES (:username, :email, :password, :emailVerification)");
         $statement->bindValue(":username", $this->username);
         $statement->bindValue(":email", $this->email);
         $statement->bindValue(":password", $this->password);
-        $statement->bindValue(":profilepictureUrl", $this->profilepictureUrl);
+        $statement->bindValue(":emailVerification", $verificationCode);
         $result = $statement->execute();
         return $result;
     }
     
-    
+    public function getVerificationCode() {
+        return $this->verificationCode;
+    }
 }

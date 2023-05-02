@@ -15,9 +15,10 @@ class EmailVerification {
         $email->setFrom("ladiske@hotmail.com", "Ladis");
         $email->setSubject("Verify your email address");
         $email->addTo($emailAddress, $username);
+        
         $email->addContent(
             "text/plain", 
-            "Thank you for signing up! Please click on the following link to verify your email address: http://localhost/prompts/Dev4-groupproject/php/verification.php?code=$verificationCode"
+            "Thank you for signing up! Please click on the following link to verify your email address: http://localhost/prompts/Dev4-groupproject/php/verification.php?verification_code=$verificationCode"
         );
 
         $sendgrid = new SendGrid($this->apiKey);
@@ -27,4 +28,8 @@ class EmailVerification {
             throw new Exception("Error sending verification email: " . $e->getMessage());
         }
     }
+
+   
 }
+
+?>

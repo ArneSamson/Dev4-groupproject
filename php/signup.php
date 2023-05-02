@@ -2,36 +2,30 @@
 
 include_once(__DIR__ . '/bootstrap.php');
 
-
 if (!empty($_POST)) {
     $username = $_POST["username"];
     $email = $_POST["email"];
-  
-    $options = [
-        'cost' => 12,
-    ];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT, $options);
+    $password = $_POST["password"];
 
     try {
-        // Generate email verification code
-        $verificationCode = bin2hex(random_bytes(32));
+        // Create a new user object
+        $user = new User($username, $email, $password);
+        var_dump($user);
 
-        // Insert user data into database
-        $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification) VALUES (:username, :email, :password, :emailVerification)");
-        $statement->bindValue(":username", $username);
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":password", $password);
-        $statement->bindValue(":emailVerification", $verificationCode);
-        $statement->execute();
+        // Register the user
+        $result = $user->register();
 
-        // Send verification email
-        $emailVerification = new EmailVerification('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');
-        $emailVerification->sendVerificationEmail($username, $email, $verificationCode);
+        if ($result) {
+            // Send verification email
+            $emailVerification = new EmailVerification('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');
+            $emailVerification->sendVerificationEmail($username, $email, $user->getVerificationCode());
 
-        // Redirect to login page
-        header("Location: login.php");
-        exit();
+            // Redirect to login page
+            header("Location: login.php");
+            exit();
+        } else {
+            throw new Exception('User registration failed.');
+        }
     } catch (Throwable $e) {
         $error = $e->getMessage();
     }
