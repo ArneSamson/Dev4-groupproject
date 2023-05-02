@@ -110,7 +110,8 @@
     </head>
     
     <body>
-      <?php include_once("../inc/nav.inc.php"); ?> <!-- This is the nav bar -->
+      <!-- <?php include_once("../inc/functions.inc.php"); ?>  -->
+      <!-- This is the nav bar -->
     
     
       <form class="uploadform" enctype="multipart/form-data" method="POST">
@@ -194,7 +195,7 @@
       </form>
     
     
-      <?php include_once("../inc/foot.inc.php"); ?> <!-- This is the footer -->
+      <!-- <?php include_once("../inc/foot.inc.php"); ?> This is the footer -->
     </body>
     
     </html>
