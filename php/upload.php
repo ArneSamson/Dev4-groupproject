@@ -1,16 +1,16 @@
 <?php
-    include_once("../inc/bootstrap.php");
+    include_once(__DIR__ . '/bootstrap.php');
     
     if (isset($_GET["error"])) {
       $error = $_GET["error"];
     }
     
-    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header('Location: ../php/login.php');
-      exit;
-    }
+    // if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    //   header('Location: ../php/login.php');
+    //   exit;
+    // }
     
-    $email = $_SESSION["email"];
+    // $user_id = $_SESSION["user_id"];
     
     try {
       $conn = Db::getInstance();
@@ -90,8 +90,8 @@
     }
     
     // Retrieve data from database, including image file name
-    $query = $conn->prepare("SELECT * FROM prompts WHERE user = :email");
-    $query->bindValue(":email", $email);
+    $query = $conn->prepare("SELECT * FROM prompts WHERE user_id = :user_id");
+    $query->bindValue(":user_id", $user_id);
     $query->execute();
     $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
     

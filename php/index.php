@@ -26,7 +26,7 @@ include_once("bootstrap.php");
 
 	<div class="containerHome">
 		<h1>Welcome to Prompt Engine!</h1>
-		<button href="upload.php" class="btn btn--upload">Upload Prompt</button>
+		<button onclick="window.location.href='upload.php'" class="btn btn--upload">Upload Prompt</button>
 	</div>
 </body>
 </html>
