@@ -28,3 +28,22 @@ function canLogIn($p_username, $p_password)
         $error = $e->getMessage();
     }
 }
+
+function updateUser($id, $username, $email, $password)
+{
+    try {
+        $conn = Db::getInstance();
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $statement = $conn->prepare("UPDATE users SET username = :username, email = :email, password = :password WHERE id = :id");
+        $statement->bindValue(":username", $username);
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":password", $hash);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return true;
+    } catch (Throwable $e) {
+        $error = $e->getMessage();
+        return false;
+    }
+}
+
