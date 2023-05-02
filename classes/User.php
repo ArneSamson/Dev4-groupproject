@@ -73,8 +73,8 @@ class User {
 
     public function getId() {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
-        $statement->bindValue(":email", $this->email);
+        $statement = $conn->prepare("SELECT id FROM users WHERE username = :username");
+        $statement->bindValue(":username", $this->username);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $this->id = $result['id'];
@@ -147,7 +147,12 @@ class User {
         return $result;
     }
     
+<<<<<<< HEAD
     public function getVerificationCode() {
         return $this->verificationCode;
     }
+=======
+    
+    
+>>>>>>> 838bf65 (fix: trying to fix directing to login pag)
 }
