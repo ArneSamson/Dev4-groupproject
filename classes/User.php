@@ -133,19 +133,22 @@ class User {
         
     }
     
-    public function register(){
-
+    public function register() {
         $verificationCode = bin2hex(random_bytes(32));
-
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+    
         $conn = Db::getInstance();
         $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification) VALUES (:username, :email, :password, :emailVerification)");
         $statement->bindValue(":username", $this->username);
         $statement->bindValue(":email", $this->email);
-        $statement->bindValue(":password", $this->password);
+        $statement->bindValue(":password", $hashedPassword);
         $statement->bindValue(":emailVerification", $verificationCode);
         $result = $statement->execute();
+        $this->verificationCode = $verificationCode; // set the verification code
+    
         return $result;
     }
+    
     
     public function getVerificationCode() {
         return $this->verificationCode;

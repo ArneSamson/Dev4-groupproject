@@ -2,9 +2,8 @@
 include_once(__DIR__ . '/bootstrap.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-
-if (!empty($_POST)) {
-    $verificationCode = $_POST['verification_code'];
+if (!empty($_GET['verification_code'])) {
+    $verificationCode = $_GET['verification_code'];
     $conn = Db::getInstance();
     $statement = $conn->prepare("SELECT * FROM users WHERE email_verification = :verificationCode");
     $statement->bindValue(":verificationCode", $verificationCode);
