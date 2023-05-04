@@ -2,59 +2,47 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-if(!empty($_POST)){
+//check form submit
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $result = canLogIn($username, $password);
-
-    if($result === true){
-        session_start();
-        $_SESSION['loggedin'] = true;
-        var_dump($user_id);
-        header("Location: index.php");
-    }elseif($result === false){
-        $error = true;
-    }elseif($result === 'unverified'){
-        $unverified = true;
+    $user = User::getByUsername($username);
+    $_SESSION["user_id"] = $user['id'];
+    
+    if (!$user) {
+        $errorMessage = "Incorrect username or password.";
+    } else {
+        if (password_verify($password, $user['password'])) {
+            session_start();
+            header('Location: index.php');
+            var_dump($user['id']);
+            exit();
+        } else {
+            $errorMessage = "Incorrect email or password.";
+        }
     }
-};
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="form">
-        <h2 class="form__title">Login</h2>
+    <h1>Login</h1>
 
-        <?php if(isset($error)): ?>
-            <div class="form__error">
-                <p>Invalid username or password</p>
-            </div>
-        <?php elseif(isset($unverified)): ?>
-            <div class="form__error">
-                <p>Please verify your email address</p>
-            </div>
-        <?php endif; ?>
+    <?php if (isset($errorMessage)): ?>
+        <p><?php echo $errorMessage; ?></p>
+    <?php endif; ?>
 
-        <form method="post">
-            <div class="form__field">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" required>
-            </div>
-            <div class="form__field">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-            </div>
-            <div class="form__field">
-                <input type="submit" value="Log in" class="form__button">
-            </div>
-        </form>
-    </div>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <label for="username">username:</label>
+        <input type="username" name="username" id="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
 </body>
 </html>
