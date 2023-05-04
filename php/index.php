@@ -4,7 +4,7 @@ include_once("bootstrap.php");
 
 
 
-// $user_id = 
+$user_id = $_SESSION["user_id"];
 
 ?>
 
