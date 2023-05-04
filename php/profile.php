@@ -2,12 +2,9 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-$user_id = $_GET['user_id'];
-
 
 // Make sure the user is logged in
-session_start();
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
