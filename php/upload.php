@@ -1,18 +1,14 @@
 <?php
+
+
     include_once(__DIR__ . '/bootstrap.php');
     
     if (isset($_GET["error"])) {
       $error = $_GET["error"];
     }
-    
-    // if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    //   header('Location: ../php/login.php');
-    //   exit;
-    // }
-    
+
     $user_id = $_SESSION["user_id"];
- 
-    
+     
     try {
       $conn = Db::getInstance();
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
