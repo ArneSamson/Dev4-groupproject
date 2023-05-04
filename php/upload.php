@@ -7,7 +7,9 @@
       $error = $_GET["error"];
     }
 
-    $user_id = $_SESSION["user_id"];
+    if(!isset($_SESSION["user_id"])) {
+      header("Location: login.php");
+    }
      
     try {
       $conn = Db::getInstance();
