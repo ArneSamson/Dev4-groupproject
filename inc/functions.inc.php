@@ -47,5 +47,3 @@ function updateUser($user_id, $username, $email, $password, $conn)
     }
 }
 
-
-
