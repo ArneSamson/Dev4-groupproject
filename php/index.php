@@ -1,15 +1,25 @@
 <?php
 
+error_reporting(E_ALL);
+
 include_once("bootstrap.php");
 
-if (isset($_GET['user_id'])) {
-    $user_id = $_GET['user_id'];
-    $profile_url = "../php/profile.php?user_id=" . $user_id;
-} else {
-    $profile_url = "../php/profile.php?user_id=";
+// Check if user is already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
 }
 
+// Check if user is not logged in or user ID is empty
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    var_dump("User is not logged in or user id is empty");
+}
+
+
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +32,7 @@ if (isset($_GET['user_id'])) {
 		<div class="navbar__logo">Prompt Engine</div>
 		<div class="navbar__buttons">
 			<div class="navbar__button navbar__button--credit">Credits: 0</div>
-			<a href="<?php echo $$profile_url; ?>">Edit Profile</a>
+			<a href="<?php echo $profile_url; ?>">Edit Profile</a>
 			<a href="#" class="navbar__button navbar__button--logout">Log out</a>
 		</div>
 	</nav>

@@ -1,25 +1,32 @@
 <?php
+session_start();
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
+
+// Check if user is already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
 
 if(!empty($_POST)){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $result = canLogIn($username, $password);
+    $user_id = canLogIn($username, $password);
 
-    if($result === true){
-        session_start();
-        $_SESSION['loggedin'] = true;
-        var_dump($user_id);
+    if ($user_id !== false) {
+        $_SESSION['user_id'] = $user_id;
         header("Location: index.php");
-    }elseif($result === false){
-        $error = true;
-    }elseif($result === 'unverified'){
-        $unverified = true;
+        exit();
+    } else {
+        $error = "Invalid username or password";
     }
-};
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
