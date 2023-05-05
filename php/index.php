@@ -4,18 +4,14 @@ error_reporting(E_ALL);
 
 include_once("bootstrap.php");
 
-// Check if user is already logged in
-if (isset($_SESSION['user_id'])) {
-    header("Location: index.php");
-    exit();
+if(!isset($_SESSION["user_id"])) {
+	$user_id = "";
 }
 
 // Check if user is not logged in or user ID is empty
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
     var_dump("User is not logged in or user id is empty");
 }
-
-
 
 
 ?>
@@ -32,14 +28,14 @@ if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
 		<div class="navbar__logo">Prompt Engine</div>
 		<div class="navbar__buttons">
 			<div class="navbar__button navbar__button--credit">Credits: 0</div>
-			<a href="<?php echo $profile_url; ?>">Edit Profile</a>
-			<a href="#" class="navbar__button navbar__button--logout">Log out</a>
+			<a href="profile.php?user_id=<?php echo $user_id; ?>">Edit Profile</a>
+			<a href="logout.php" class="navbar__button navbar__button--logout">Log out</a>
 		</div>
 	</nav>
 
 	<div class="containerHome">
 		<h1>Welcome to Prompt Engine!</h1>
-		<button class="btn btn--upload">Upload Prompt</button>
+		<button onclick="window.location.href='upload.php'" class="btn btn--upload">Upload Prompt</button>
 	</div>
 </body>
 </html>

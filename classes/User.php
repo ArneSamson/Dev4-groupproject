@@ -122,17 +122,6 @@ class User {
         return $result;
     }
     
-    public static function getByEmail($email) {
-        // code to retrieve the user from the database based on their email, including emailVerified and profilePictureUrl
-        $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        return $result;
-        
-    }
-    
     public function register() {
         $verificationCode = bin2hex(random_bytes(32));
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
@@ -152,5 +141,58 @@ class User {
     
     public function getVerificationCode() {
         return $this->verificationCode;
+    }
+
+    public static function getByUsername($username) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getByEmail($email) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function authenticate($password) {
+        return password_verify($password, $this->password);
+    }
+
+    public static function login($usernameOrEmail, $password) {
+        $user = self::getByUsername($usernameOrEmail);
+
+        if (!$user) {
+            $user = self::getByEmail($usernameOrEmail);
+        }
+
+        if (!$user) {
+            return false;
+        }
+
+        if (!$user['emailVerified']) {
+            return false;
+        }
+
+        if (!$user->authenticate($password)) {
+            return false;
+        }
+
+        $_SESSION['userId'] = $user['id'];
+        return true;
+    }
+
+    public static function logout() {
+        session_destroy();
+    }
+
+    public static function isLoggedIn() {
+        return isset($_SESSION['userId']);
     }
 }
