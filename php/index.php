@@ -1,12 +1,21 @@
 <?php
 
+error_reporting(E_ALL);
+
 include_once("bootstrap.php");
 
 if(!isset($_SESSION["user_id"])) {
 	$user_id = "";
 }
 
+// Check if user is not logged in or user ID is empty
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    var_dump("User is not logged in or user id is empty");
+}
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
