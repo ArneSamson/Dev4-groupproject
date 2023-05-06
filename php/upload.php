@@ -10,6 +10,8 @@
     if(!isset($_SESSION["user_id"])) {
       header("Location: login.php");
     }
+
+    $user_id = $_SESSION["user_id"]; // Assign the value of user_id to the $user_id variable
      
     try {
       $conn = Db::getInstance();
