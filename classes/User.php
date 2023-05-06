@@ -129,17 +129,17 @@ class User {
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
     
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification) VALUES (:username, :email, :password, :emailVerification)");
+        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification, role) VALUES (:username, :email, :password, :emailVerification, :role)");
         $statement->bindValue(":username", $this->username);
         $statement->bindValue(":email", $this->email);
         $statement->bindValue(":password", $hashedPassword);
         $statement->bindValue(":emailVerification", $verificationCode);
+        $statement->bindValue(":role", "user"); // Assign the default role "user"
         $result = $statement->execute();
         $this->verificationCode = $verificationCode; // set the verification code
     
         return $result;
     }
-    
     
     public function getVerificationCode() {
         return $this->verificationCode;
