@@ -9,12 +9,14 @@ class User {
     private $profilepictureUrl;
     private $savedPrompts;
     private $verificationCode;
+    private $role;
 
 
     public function __construct($username, $email, $password) {
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($password);
+        $this->setRole('user');
     }
     
     public function setUsername($username) {
@@ -160,6 +162,56 @@ class User {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function setRole($role) {
+        $this->role = $role;
+    }
+    
+    public function getRole() {
+        return $this->role;
+    }
+    
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+    
+    public function isModerator() {
+        return $this->role === 'moderator';
+    }
+    
+    public function grantAdminRole() {
+        if ($this->isAdmin()) {
+            throw new Exception("User already has admin role");
+        }
+        
+        $this->setRole('admin');
+    }
+    
+    public function grantModeratorRole() {
+        if ($this->isModerator()) {
+            throw new Exception("User already has moderator role");
+        }
+        
+        $this->setRole('moderator');
+    }
+    
+    public function revokeAdminRole() {
+        if (!$this->isAdmin()) {
+            throw new Exception("User does not have admin role");
+        }
+        
+        $this->setRole('user');
+    }
+    
+    public function revokeModeratorRole() {
+        if (!$this->isModerator()) {
+            throw new Exception("User does not have moderator role");
+        }
+        
+        $this->setRole('user');
+    }
+
+    
 
     public function authenticate($password) {
         return password_verify($password, $this->password);
