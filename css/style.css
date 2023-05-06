@@ -162,6 +162,97 @@ body {
     border: 2px solid #6B78FF;
 }
 
+.uploadform {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .uploadform h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .uploadform fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .uploadform legend {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .uploadform label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .uploadform input,
+  .uploadform textarea,
+  .uploadform select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .uploadform input[type="checkbox"],
+  .uploadform input[type="file"] {
+    margin-top: 5px;
+  }
+
+  .uploadform .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .uploadform .checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  .uploadform .submitbtn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .checkbox-container {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  
+  .checkbox-heading {
+    font-weight: bold;
+  }
+  
+  .checkbox-scroll {
+    margin-top: 5px;
+    margin-left: 20px; /* Adjust the left margin as needed */
+  }
+  
+  .checkbox-label {
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+
+  .form-container {
+  max-height: 650px; /* Adjust the height as needed */
+  overflow-y: none;
+    float: left;
+width: 50%;
+}
+
 
 @keyframes gradient {
     0% {
