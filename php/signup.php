@@ -19,6 +19,8 @@ if (!empty($_POST)) {
             // Send verification email
             $emailVerification = new EmailVerification('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');
             $emailVerification->sendVerificationEmail($username, $email, $user->getVerificationCode());
+            // We zetten hier de user rol in registratieproces
+            $user->setRole('user');
 
             // Redirect to login page
             header("Location: login.php");
