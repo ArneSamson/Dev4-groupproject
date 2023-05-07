@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $user = User::getByUsername($username);
     $_SESSION["user_id"] = $user['id'];
+    $_SESSION["role"] = $user['role'];
     
     if (!$user) {
         $errorMessage = "Incorrect username or password.";
