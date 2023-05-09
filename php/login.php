@@ -2,29 +2,24 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-//check form submit
+// Check form submit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $user = User::getByUsername($username);
-    $_SESSION["user_id"] = $user['id'];
-    $_SESSION["role"] = $user['role'];
+    $userId = canLogIn($username, $password);
     
-    if (!$user) {
-        $errorMessage = "Incorrect username or password.";
+    if ($userId !== false) {
+        session_start();
+        $_SESSION['user_id'] = $userId;
+        header('Location: index.php');
+        exit();
     } else {
-        if (password_verify($password, $user['password'])) {
-            session_start();
-            header('Location: index.php');
-            var_dump($user['id']);
-            exit();
-        } else {
-            $errorMessage = "Incorrect email or password.";
-        }
+        $errorMessage = "Incorrect username or password.";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

@@ -23,7 +23,7 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if (updateUser($user_id, $username, $email, $password, $conn)) {
+    if (updateUser($user_id, $username, $email, $password, $conn, $role)) {
         $success = true;
     } else {
         $error = true;
