@@ -9,7 +9,11 @@ if (!empty($_POST)) {
 
     try {
         // Create a new user object
-        $user = new User($username, $email, $password);
+        $user = new User();
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setPassword($password);
+        $user->setRole('user');
         var_dump($user);
 
         // Register the user

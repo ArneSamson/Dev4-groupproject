@@ -12,13 +12,6 @@ class User {
     private $role;
 
 
-    public function __construct($username, $email, $password) {
-        $this->setUsername($username);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setRole('user');
-    }
-
     public static function getAllUsers() {
         $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT * FROM users");
