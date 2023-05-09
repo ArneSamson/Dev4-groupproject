@@ -72,6 +72,10 @@ if (!empty($_POST)) {
         <?php endif; ?>
 
         <form method="post">
+
+             <div class="form__field">
+                <img src=<?php echo $user['imagepath']?> alt="profilepicture" style="width: 100px; height: auto">
+            </div>
             <div class="form__field">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" value="<?php echo $user['username']; ?>" required>
@@ -88,7 +92,7 @@ if (!empty($_POST)) {
                 <input type="submit" value="Update" class="form__button">
             </div>
             <div class="form__field">
-                <label for="profile_picture">Profile Picture:</label>
+                <label for="profile_picture">Set new profile picture:</label>
                 <input type="file" name="profile_picture" id="profile_picture">
             </div>
 
