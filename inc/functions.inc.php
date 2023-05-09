@@ -51,3 +51,4 @@ function updateUser($user_id, $username, $email, $password, $role, $conn)
         return false;
     }
 }
+
