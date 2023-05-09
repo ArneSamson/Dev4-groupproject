@@ -2,12 +2,12 @@
 
 include_once("bootstrap.php");
 
-if(!isset($_SESSION["user_id"])) {
-	$user_id = "";
-}else{
-	$user_id = $_SESSION["user_id"];
-	$user_role = $_SESSION["role"];
-	var_dump($_SESSION);
+if (!isset($_SESSION["user_id"])) {
+    $user_id = "";
+} else {
+    $user_id = $_SESSION["user_id"];
+    $user_role = $_SESSION["role"];
+    var_dump($_SESSION);
 }
 
 ?>

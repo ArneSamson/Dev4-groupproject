@@ -3,15 +3,20 @@
 function canLogIn($p_username, $p_password) {
     try {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT id, password, verified FROM users WHERE username = :username");
+        $statement = $conn->prepare("SELECT id, password, verified, role FROM users WHERE username = :username");
         $statement->bindValue(":username", $p_username);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
         if ($result !== false) {
             $hash = $result['password'];
+            
             if (password_verify($p_password, $hash)) {
                 if ($result['verified'] == 1) {
-                    return $result['id'];
+                    return [
+                        'id' => $result['id'],
+                        'role' => $result['role']
+                    ];
                 } else {
                     throw new Exception('User is not verified');
                 }

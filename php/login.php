@@ -7,11 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $userId = canLogIn($username, $password);
+    $loginResult = canLogIn($username, $password);
     
-    if ($userId !== false) {
+    if ($loginResult !== false) {
         session_start();
-        $_SESSION['user_id'] = $userId;
+        $_SESSION['user_id'] = $loginResult['id'];
+        $_SESSION['role'] = $loginResult['role'];
         header('Location: index.php');
         exit();
     } else {
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
