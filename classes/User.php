@@ -6,7 +6,7 @@ class User {
     private $email;
     private $emailVerified;
     private $password;
-    private $profilepictureUrl;
+    private $profilepictureUrl = "../media/pfp/default.png";
     private $savedPrompts;
     private $verificationCode;
     private $role;
@@ -41,7 +41,7 @@ class User {
 
     public function setProfilePicture($profilepictureUrl) {
         if(empty($profilepictureUrl))
-            throw new Exception("Profile picture cannot be empty");
+            $this->profilepictureUrl = "../media/pfp/default.png";
         else{
             $this->profilepictureUrl = $profilepictureUrl;
         }
@@ -131,12 +131,13 @@ class User {
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
     
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification, role) VALUES (:username, :email, :password, :emailVerification, :role)");
+        $statement = $conn->prepare("INSERT INTO users (username, email, password, email_verification, role, imagepath) VALUES (:username, :email, :password, :emailVerification, :role, :imagepath)");
         $statement->bindValue(":username", $this->username);
         $statement->bindValue(":email", $this->email);
         $statement->bindValue(":password", $hashedPassword);
         $statement->bindValue(":emailVerification", $verificationCode);
         $statement->bindValue(":role", "user"); // Assign the default role "user"
+        $statement->bindValue(":imagepath", $this->profilepictureUrl);
         $result = $statement->execute();
         $this->verificationCode = $verificationCode; // set the verification code
     

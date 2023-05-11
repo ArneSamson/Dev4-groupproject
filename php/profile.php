@@ -23,23 +23,7 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Check if a file was uploaded
-    if (!empty($_FILES['profile_picture']['name'])) {
-        // Define the directory where the uploaded image will be stored
-        $target_dir = "../media/pfp/";
-        // Generate a unique filename for the uploaded image
-        $filename = uniqid() . "-" . basename($_FILES["profile_picture"]["name"]);
-        // Define the full path to the uploaded image file
-        $target_file = $target_dir . $filename;
-        // Move the uploaded file to the target directory
-        if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
-            // Set the profile picture URL in the user's record in the database
-            $profile_picture_url = "/media/pfp/$filename";  // Replace with your actual domain name and directory path
-            $user['profile_picture_url'] = $profile_picture_url;
-        } else {
-            $error = true;
-        }
-    }
+    
 
     if (updateUser($user_id, $username, $email, $password, $conn, $target_file)) {
         $success = true;
@@ -72,6 +56,10 @@ if (!empty($_POST)) {
         <?php endif; ?>
 
         <form method="post">
+
+             <div class="form__field">
+                <img src=<?php echo $user['imagepath']?> alt="profilepicture" style="width: 100px; height: auto">
+            </div>
             <div class="form__field">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" value="<?php echo $user['username']; ?>" required>
@@ -88,7 +76,7 @@ if (!empty($_POST)) {
                 <input type="submit" value="Update" class="form__button">
             </div>
             <div class="form__field">
-                <label for="profile_picture">Profile Picture:</label>
+                <label for="profile_picture">Set new profile picture:</label>
                 <input type="file" name="profile_picture" id="profile_picture">
             </div>
 
