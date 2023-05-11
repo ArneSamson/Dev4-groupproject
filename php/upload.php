@@ -1,16 +1,17 @@
 <?php
     include_once("bootstrap.php");
-
+    
     if (isset($_GET["error"])) {
       $error = $_GET["error"];
     }
     
     if (!isset($_SESSION["user_id"])) {
       header("Location: login.php");
+      exit; // Add an exit statement after redirection
     }
     
-    $user_id = $_SESSION["user_id"]; // Assign the value of user_id to the $user_id variable
-     
+    $user_id = $_SESSION["user_id"];
+    
     try {
       $conn = Db::getInstance();
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -22,14 +23,21 @@
     $prompts = new Prompts($conn);
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $prompts->setName($_POST["title"]);
+      $prompts->setDescription($_POST["description"]);
+      $prompts->setPrompt($_POST["prompt"]);
+      $prompts->setPrice($_POST["price"]);
+      $prompts->setModel($_POST["model-type"]);
+      $prompts->setTags($_POST["tags"]);
+      $prompts->setSelectedCategories($_POST["categories"]);
+      $prompts->setFileName($_FILES["image-upload"]);
+    
       $prompts->handleUpload();
-      header('Location: ../php/success.php');
+      header('Location: success.php');
+      exit;
     }
-    
-    // Retrieve data from database, including image file name
-    $promptsList = $prompts->getPromptsByUserId($user_id);
-    
     ?>
+    
     
     <!DOCTYPE html>
     <html lang="en">

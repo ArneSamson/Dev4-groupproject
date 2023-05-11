@@ -21,6 +21,8 @@ class User {
     }
 
     
+
+    
     public function setUsername($username) {
         if (empty($username)) {
             throw new Exception("Username cannot be empty");
@@ -142,6 +144,23 @@ class User {
         $this->verificationCode = $verificationCode; // set the verification code
     
         return $result;
+    }
+
+    public static function verifyUser($verificationCode) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE email_verification = :verificationCode");
+        $statement->bindValue(":verificationCode", $verificationCode);
+        $statement->execute();
+        $user = $statement->fetch();
+
+        if ($user) {
+            $statement = $conn->prepare("UPDATE users SET verified = 1 WHERE id = :userId");
+            $statement->bindValue(":userId", $user['id']);
+            $statement->execute();
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public function getVerificationCode() {

@@ -23,6 +23,18 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $target_dir = "../media/pfp/";
+
+    if (!empty($_FILES['profile_picture']['name'])) {
+        $image_file = $_FILES['profile_picture']['name'];
+        $image_tmp = $_FILES['profile_picture']['tmp_name'];
+        $image_extension = pathinfo($image_file, PATHINFO_EXTENSION);
+        $image_name = uniqid() . '.' . $image_extension;
+        $target_file = $target_dir . $image_name;
+        move_uploaded_file($image_tmp, $target_file);
+    } else {
+        $target_file = $user['imagepath'];
+    }
     
 
     if (updateUser($user_id, $username, $email, $password, $conn, $target_file)) {
