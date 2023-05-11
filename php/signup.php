@@ -21,7 +21,10 @@ if (!empty($_POST)) {
 
         if ($result) {
             // Send verification email
-            $emailVerification = new EmailVerification('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');
+            //get api key from config.ini
+            $config = parse_ini_file(__DIR__ . "/../config.ini");
+            $apiKey = $config['apiKey'];
+            $emailVerification = new EmailVerification($apiKey);
             $emailVerification->sendVerificationEmail($username, $email, $user->getVerificationCode());
             // We zetten hier de user rol in registratieproces
             $user->setRole('user');

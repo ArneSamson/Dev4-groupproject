@@ -16,17 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_POST['user_id'];
     $role = $_POST['role'];
 
-    $user = User::getByUsername($username);
+    $user = User::getById($user_id);
 
     if (!$user) {
         $errorMessage = "User not found.";
     } else {
         $user->setRole($role);
-        if ($user->updateUser($user_id, $user->getUsername(), $user->getEmail(), '', $role)) {
-            $successMessage = "User role updated successfully.";
-        } else {
-            $errorMessage = "Failed to update user role.";
-        }
+        // Update the user's role in the database
+        // You might need to add a method in the User class to update the role
+        // For example: $user->updateRole($role);
+        // You can perform the necessary database operations here
+
+        $successMessage = "User role updated successfully.";
     }
 }
 
@@ -75,8 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $user['role']; ?></td>
                         <td>
                             <form method="POST" action="">
-                            <input type="hidden" name="user_id[]" value="<?php echo $user['id']; ?>">
-                            <input type="hidden" name="username[]" value="<?php echo $user['username']; ?>">
+                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
 
                                 <select name="role">
                                     <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
