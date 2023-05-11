@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['user_id'] = $loginResult['id'];
         $_SESSION['role'] = $loginResult['role'];
-        header('Location: index.php');
+        header('Location: ../index.php');
         exit();
     } else {
         $errorMessage = "Incorrect username or password.";
