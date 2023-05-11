@@ -11,11 +11,6 @@ function validateInput($input) {
 }
 
 if (!empty($_POST)) {
-<<<<<<< HEAD
-    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
-    $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
-    $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
-=======
     $username = validateInput($_POST["username"]);
     $email = validateInput($_POST["email"]);
     $password = validateInput($_POST["password"]);
@@ -26,7 +21,6 @@ if (!empty($_POST)) {
     $username = validateInput($username);
     $email = validateInput($email);
     // Add additional validation checks for the username and email if needed
->>>>>>> 22b140f20ce9716b9427e029b2f4bc922c2e3f6d
 
     try {
         // Create a new user object
