@@ -2,10 +2,25 @@
 
 include_once(__DIR__ . '/bootstrap.php');
 
+function validateInput($input) {
+    // Remove leading/trailing whitespace
+    $input = trim($input);
+    // Convert special characters to HTML entities
+    $input = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+    return $input;
+}
+
 if (!empty($_POST)) {
-    $username = $_POST["username"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+    $username = validateInput($_POST["username"]);
+    $email = validateInput($_POST["email"]);
+    $password = validateInput($_POST["password"]);
+
+    var_dump($username, $email, $password);
+
+    // Validate and sanitize user input
+    $username = validateInput($username);
+    $email = validateInput($email);
+    // Add additional validation checks for the username and email if needed
 
     try {
         // Create a new user object
@@ -14,7 +29,6 @@ if (!empty($_POST)) {
         $user->setEmail($email);
         $user->setPassword($password);
         $user->setRole('user');
-        var_dump($user);
 
         // Register the user
         $result = $user->register();
@@ -39,6 +53,8 @@ if (!empty($_POST)) {
         $error = $e->getMessage();
     }
 }
+
+?>
 
 ?>
 
