@@ -1,92 +1,208 @@
 <?php
-
 // Define a Prompts class
 class Prompts
 {
-    private $conn;  
+    private $conn;
+    private $name;
+    private $description;
+    private $model;
+    private $price;
+    private $prompt;
+    private $tags;
+    private $fileName;
+    private $fileTempName;
+    private $fileSize;
+    private $fileError;
+    private $fileType;
+    private $selectedCategories;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
 
+    // Getters and Setters
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    public function getPrompt()
+    {
+        return $this->prompt;
+    }
+
+    public function setPrompt($prompt)
+    {
+        $this->prompt = $prompt;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    public function getFileTempName()
+    {
+        return $this->fileTempName;
+    }
+
+    public function setFileTempName($fileTempName)
+    {
+        $this->fileTempName = $fileTempName;
+    }
+
+    public function getFileSize()
+    {
+        return $this->fileSize;
+    }
+
+    public function setFileSize($fileSize)
+    {
+        $this->fileSize = $fileSize;
+    }
+
+    public function getFileError()
+    {
+        return $this->fileError;
+    }
+
+    public function setFileError($fileError)
+    {
+        $this->fileError = $fileError;
+    }
+
+    public function getSelectedCategories()
+    {
+        return $this->selectedCategories;
+    }
+
+    public function setSelectedCategories($selectedCategories)
+    {
+        $this->selectedCategories = $selectedCategories;
+    }
+
     public function handleUpload()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $name = $_POST["title"];
-            $description = $_POST["description"];
-            $model = $_POST["model-type"];
-            $price = $_POST["price"];
-            $prompt = $_POST["prompt"];
-            $tags = $_POST["tags"];
+            $this->name = $_POST["title"];
+            $this->description = $_POST["description"];
+            $this->model = $_POST["model-type"];
+            $this->price = $_POST["price"];
+            $this->prompt = $_POST["prompt"];
+            $this->tags = $_POST["tags"];
 
             // Handle uploaded file
-            $file_name = $_FILES["image-upload"]["name"];
-            $file_temp_name = $_FILES["image-upload"]["tmp_name"];
-            $file_size = $_FILES["image-upload"]["size"];
-            $file_error = $_FILES["image-upload"]["error"];
+            $this->fileName = $_FILES["image-upload"]["name"];
+            $this->fileTempName = $_FILES["image-upload"]["tmp_name"];
+            $this->fileSize = $_FILES["image-upload"]["size"];
+            $this->fileError = $_FILES["image-upload"]["error"];
 
-            if ($file_error !== UPLOAD_ERR_OK) {
-                $message = "Upload failed with error code $file_error.";
+            if ($this->fileError !== UPLOAD_ERR_OK) {
+                $message = "Upload failed with error code $this->fileError.";
                 exit;
             }
 
             // Check file size
-            if ($file_size > 1000000) {
+            if ($this->fileSize > 1000000) {
                 $message = "File is too big"; // set error message
                 header("Location: ../php/upload.php?error=" . urlencode($message)); // redirect to edit account page
                 exit;
             }
 
             // Check file name for invalid characters
-            if (!preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z0-9]{3,4}$/', $file_name)) {
+            if (!preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z0-9]{3,4}$/', $this->fileName)) {
                 $message = "File name is not correct"; // set error message
                 header("Location: ../php/upload.php?error=" . urlencode($message)); // redirect to edit account page
                 exit;
             }
 
             // Save uploaded file to disk
-            $uploads_dir = "../media/";
-            $file_path = $uploads_dir . $file_name;
-            if (!move_uploaded_file($file_temp_name, $file_path)) {
+            $uploadsDir = "../media/";
+            $fileName = basename($this->fileName);
+            $filePath = $uploadsDir . $fileName;
+            $absoluteFilePath = realpath($filePath);
+            if (!$absoluteFilePath || !move_uploaded_file($this->fileTempName, $absoluteFilePath)) {
                 $message = "Failed to move uploaded file.";
                 exit;
             }
 
             $categories = array("Animals", "3D", "Space", "Game", "Car", "Nature", "Portrait", "Anime", "Interior", "Realistic", "Geek", "Building");
-            $selected_categories = array();
+            $this->selectedCategories = array();
             foreach ($categories as $category) {
                 if (isset($_POST["categories"]) && in_array($category, $_POST["categories"])) {
-                    $selected_categories[] = $category;
+                    $this->selectedCategories[] = $category;
                 }
             }
-            $categories_str = implode(", ", $selected_categories);
+            $categoriesStr = implode(", ", $this->selectedCategories);
 
-            // Insert data into database, including image file name
-            $current_date = date("Y-m-d H:i:s");
+            // Insert data into the database, including image file name
+            $currentDate = date("Y-m-d H:i:s");
 
             $query = $this->conn->prepare("INSERT INTO prompts (user_id, name, prompt, description, date, pictures, categories, price, tags, model) VALUES (:user_id, :name, :prompt, :description, :date, :pictures, :categories, :price, :tags, :model)");
             $query->bindValue(":user_id", $_SESSION["user_id"]);
-            $query->bindValue(":name", $name);
-            $query->bindValue(":prompt", $prompt);
-            $query->bindValue(":description", $description);
-            $query->bindValue(":date", $current_date);
-            $query->bindValue(":pictures", $file_name);
-            $query->bindValue(":categories", $categories_str);
-            $query->bindValue(":price", $price);
-            $query->bindValue(":tags", $tags);
-            $query->bindValue(":model", $model);
+            $query->bindValue(":name", $this->name);
+            $query->bindValue(":prompt", $this->prompt);
+            $query->bindValue(":description", $this->description);
+            $query->bindValue(":date", $currentDate);
+            $query->bindValue(":pictures", $filePath);
+            $query->bindValue(":categories", $categoriesStr);
+            $query->bindValue(":price", $this->price);
+            $query->bindValue(":tags", $this->tags);
+            $query->bindValue(":model", $this->model);
             $query->execute();
 
             header('Location: ../php/success.php');
         }
     }
-
-    public function getPromptsByUserId($user_id)
-    {
-        $query = $this->conn->prepare("SELECT * FROM prompts WHERE user_id = :user_id");
-        $query->bindValue(":user_id", $user_id);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
-};
+}
