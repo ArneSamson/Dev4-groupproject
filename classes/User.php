@@ -21,8 +21,6 @@ class User {
     }
 
     
-
-    
     public function setUsername($username) {
         if (empty($username)) {
             throw new Exception("Username cannot be empty");
