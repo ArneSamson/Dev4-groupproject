@@ -15,13 +15,6 @@ if (!empty($_POST)) {
     $email = validateInput($_POST["email"]);
     $password = validateInput($_POST["password"]);
 
-    var_dump($username, $email, $password);
-
-    // Validate and sanitize user input
-    $username = validateInput($username);
-    $email = validateInput($email);
-    // Add additional validation checks for the username and email if needed
-
     try {
         // Create a new user object
         $user = new User();
@@ -40,8 +33,6 @@ if (!empty($_POST)) {
             $apiKey = $config['apiKey'];
             $emailVerification = new EmailVerification($apiKey);
             $emailVerification->sendVerificationEmail($username, $email, $user->getVerificationCode());
-            // We zetten hier de user rol in registratieproces
-            $user->setRole('user');
 
             // Redirect to login page
             header("Location: login.php");
@@ -56,8 +47,6 @@ if (!empty($_POST)) {
 
 ?>
 
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +58,7 @@ if (!empty($_POST)) {
     <div class="form">
         <h2 class="form__title">Sign up</h2>
 
-        <?php if( isset($error) ) : ?>
+        <?php if (isset($error)) : ?>
             <div class="form__error">
                 <p>
                     <?php echo $error; ?>
