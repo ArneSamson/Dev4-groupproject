@@ -9,6 +9,13 @@ if (!isset($_SESSION["user_id"])) {
     var_dump($_SESSION);
 }
 
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: php/login.php");
+    exit;
+}
+
+
 // Retrieve prompts from the database where 'onlin' is 1
 try {
     $conn = Db::getInstance();
@@ -34,7 +41,7 @@ try {
     <nav class="navbar">
         <div class="navbar__logo">Prompt Engine</div>
         <div class="navbar__buttons">
-            <div class="navbar__button navbar__button--credit">Credits: 0</div>
+            <div class="navbar__button--credit">Credits: 0</div>
             <a href="php/profile.php?user_id=<?php echo $user_id; ?>" class="navbar__button">Edit Profile</a>
             <?php if ($user_role === "admin") : ?>
                 <a href="php/roles.php" class="navbar__button">Roles</a>
@@ -42,7 +49,7 @@ try {
             <?php if ($user_role === "admin" || $user_role === "moderator") : ?>
                 <a href="php/validate.php" class="navbar__button">Validate</a>
             <?php endif; ?>
-            <a href="php/logout.php" class="navbar__button navbar__button--logout">Log out</a>
+            <a href="?logout=true" class="navbar__button navbar__button--logout">Log out</a>
         </div>
     </nav>
 
