@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <nav class="navbar">
         <div class="navbar__logo">Prompt Engine</div>
         <div class="navbar__buttons">
-            <a href="index.php">Home</a>
-            <a href="logout.php" class="navbar__button navbar__button--logout">Log out</a>
+            <a href="../index.php">Home</a>
+            <a href="../logout.php" class="navbar__button navbar__button--logout">Log out</a>
         </div>
     </nav>
 

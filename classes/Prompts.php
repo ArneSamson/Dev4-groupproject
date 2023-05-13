@@ -21,6 +21,20 @@ class Prompts
         $this->conn = $conn;
     }
 
+    public function validatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("UPDATE prompts SET onlin = 1 WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
+    public function invalidatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("DELETE FROM prompts WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
     // Getters and Setters
     public function getName()
     {
