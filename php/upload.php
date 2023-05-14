@@ -10,6 +10,7 @@ if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
+
 $user_id = $_SESSION["user_id"];
 var_dump($user_id);
 
@@ -19,10 +20,10 @@ try {
 
     // Check if the database connection is successful
     if ($conn) {
-      echo "Database connection successful!";
-  } else {
-      echo "Failed to connect to the database.";
-  }
+        echo "Database connection successful!";
+    } else {
+        echo "Failed to connect to the database.";
+    }
 } catch (PDOException $e) {
     $message = "Try again later: " . $e->getMessage();
     exit($message);
@@ -32,49 +33,19 @@ $prompts = new Prompts($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Form submitted!";
-    //var_dump($_POST);
-    //var_dump($_FILES);
+    // var_dump($_POST);
+    // var_dump($_FILES);
 
-    $prompts->setName($_POST["title"]);
-    $prompts->setDescription($_POST["description"]);
-    $prompts->setPrompt($_POST["prompt"]);
-    $prompts->setPrice($_POST["price"]);
-    $prompts->setModel($_POST["model-type"]);
-    $prompts->setTags($_POST["tags"]);
-    $prompts->setSelectedCategories($_POST["categories"]);
+    $prompts->handleUpload($_POST, $_FILES);
 
-    // Handle uploaded file
-    $prompts->setFileName($_FILES["image-upload"]["name"]);
-    $prompts->setFileTempName($_FILES["image-upload"]["tmp_name"]);
-    $prompts->setFileSize($_FILES["image-upload"]["size"]);
-    $prompts->setFileError($_FILES["image-upload"]["error"]);
-
-    if ($prompts->getFileError() !== UPLOAD_ERR_OK) {
-        $message = "Upload failed with error code " . $prompts->getFileError() . ".";
-        exit;
-    }
-
-    // Check file size
-    if ($prompts->getFileSize() > 1000000) {
-        $message = "File is too big";
-        exit;
-    }
-
-    // Check file name for invalid characters
-    if (!preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z0-9]{3,4}$/', $prompts->getFileName())) {
-        $message = "File name is not correct";
-        exit;
-    }
-
-    $prompts->handleUpload();
     header("Location: ../index.php");
     exit;
 }
+
 ?>
 
     <!DOCTYPE html>
     <html lang="en">
-    
     <head>
       <meta charset="UTF-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
