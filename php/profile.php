@@ -50,7 +50,7 @@ if (!empty($_POST)) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Register</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -68,9 +68,8 @@ if (!empty($_POST)) {
         <?php endif; ?>
 
         <form method="post">
-
-             <div class="form__field">
-                <img src=<?php echo $user['imagepath']?> alt="profilepicture" style="width: 100px; height: auto">
+            <div class="form__field">
+                <img src="<?php echo $user['imagepath']?>" alt="profilepicture" style="width: 100px; height: auto">
             </div>
             <div class="form__field">
                 <label for="username">Username:</label>
@@ -91,5 +90,7 @@ if (!empty($_POST)) {
                 <label for="profile_picture">Set new profile picture:</label>
                 <input type="file" name="profile_picture" id="profile_picture">
             </div>
-
         </form>
+    </div>
+</body>
+</html>

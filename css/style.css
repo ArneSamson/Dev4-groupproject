@@ -22,6 +22,85 @@ body {
   animation: gradient 15s ease infinite;
 }
 
+.container {
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.form {
+  width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form__title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form__success,
+.form__error {
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.form__success {
+  background-color: #00ff00;
+  color: #fff;
+}
+
+.form__error {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.form__field {
+  margin-bottom: 10px;
+}
+
+.form__field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form__field input[type="text"],
+.form__field input[type="email"],
+.form__field input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form__field input[type="submit"] {
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form__field input[type="submit"]:hover {
+  background-color: #00FFCB;
+}
+
+.form__field input[type="file"] {
+  display: block;
+  margin-top: 5px;
+}
+
+.form__field img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
 .containerHome {
   text-align: center;
   padding: 20px;
@@ -40,6 +119,8 @@ body {
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .navbar__logo {
   font-size: 24px;
