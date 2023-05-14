@@ -1,44 +1,77 @@
 <?php
-    include_once("bootstrap.php");
-    
-    if (isset($_GET["error"])) {
-      $error = $_GET["error"];
+
+include_once("bootstrap.php");
+
+// Check if error message is set
+$error = isset($_GET["error"]) ? $_GET["error"] : null;
+
+// Redirect to login page if user is not logged in
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit;
+}
+$user_id = $_SESSION["user_id"];
+var_dump($user_id);
+
+try {
+    $conn = Db::getInstance();
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Check if the database connection is successful
+    if ($conn) {
+      echo "Database connection successful!";
+  } else {
+      echo "Failed to connect to the database.";
+  }
+} catch (PDOException $e) {
+    $message = "Try again later: " . $e->getMessage();
+    exit($message);
+}
+
+$prompts = new Prompts($conn);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo "Form submitted!";
+    //var_dump($_POST);
+    //var_dump($_FILES);
+
+    $prompts->setName($_POST["title"]);
+    $prompts->setDescription($_POST["description"]);
+    $prompts->setPrompt($_POST["prompt"]);
+    $prompts->setPrice($_POST["price"]);
+    $prompts->setModel($_POST["model-type"]);
+    $prompts->setTags($_POST["tags"]);
+    $prompts->setSelectedCategories($_POST["categories"]);
+
+    // Handle uploaded file
+    $prompts->setFileName($_FILES["image-upload"]["name"]);
+    $prompts->setFileTempName($_FILES["image-upload"]["tmp_name"]);
+    $prompts->setFileSize($_FILES["image-upload"]["size"]);
+    $prompts->setFileError($_FILES["image-upload"]["error"]);
+
+    if ($prompts->getFileError() !== UPLOAD_ERR_OK) {
+        $message = "Upload failed with error code " . $prompts->getFileError() . ".";
+        exit;
     }
-    
-    if (!isset($_SESSION["user_id"])) {
-      header("Location: login.php");
-      exit; // Add an exit statement after redirection
+
+    // Check file size
+    if ($prompts->getFileSize() > 1000000) {
+        $message = "File is too big";
+        exit;
     }
-    
-    $user_id = $_SESSION["user_id"];
-    
-    try {
-      $conn = Db::getInstance();
-      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-      $message = "Try again later: " . $e->getMessage();
-      exit;
+
+    // Check file name for invalid characters
+    if (!preg_match('/^[a-zA-Z0-9_]+\.[a-zA-Z0-9]{3,4}$/', $prompts->getFileName())) {
+        $message = "File name is not correct";
+        exit;
     }
-    
-    $prompts = new Prompts($conn);
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $prompts->setName($_POST["title"]);
-      $prompts->setDescription($_POST["description"]);
-      $prompts->setPrompt($_POST["prompt"]);
-      $prompts->setPrice($_POST["price"]);
-      $prompts->setModel($_POST["model-type"]);
-      $prompts->setTags($_POST["tags"]);
-      $prompts->setSelectedCategories($_POST["categories"]);
-      $prompts->setFileName($_FILES["image-upload"]);
-    
-      $prompts->handleUpload();
-      header('Location: success.php');
-      exit;
-    }
-    ?>
-    
-    
+
+    $prompts->handleUpload();
+    header("Location: ../index.php");
+    exit;
+}
+?>
+
     <!DOCTYPE html>
     <html lang="en">
     
@@ -46,9 +79,8 @@
       <meta charset="UTF-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>upload your prompt</title>
-      <link rel="stylesheet" href="https://use.typekit.net/kqy0ynu.css" />
-      <link rel="stylesheet" href="../css/style.css?v=<?php echo time(); ?>" />
+      <title>Upload your prompt</title>
+      <link rel="stylesheet" href="../css/style.css" />
     </head>
     
     <body>
@@ -113,28 +145,26 @@
 
     <!-- Add more checkboxes here -->
 
-    <!-- Example additional checkboxes -->
-    <input type="checkbox" id="space" name="categories[]" value="Space">
-    <label for="space" class="checkbox-label">Space</label><br>
+        <!-- Example additional checkboxes -->
+        <input type="checkbox" id="space" name="categories[]" value="Space">
+        <label for="space" class="checkbox-label">Space</label><br>
 
-    <input type="checkbox" id="game" name="categories[]" value="Game">
-    <label for="game" class="checkbox-label">Game</label><br>
+        <input type="checkbox" id="game" name="categories[]" value="Game">
+        <label for="game" class="checkbox-label">Game</label><br>
 
-    <input type="checkbox" id="car" name="categories[]" value="Car">
-    <label for="car" class="checkbox-label">Car</label><br>
+        <input type="checkbox" id="car" name="categories[]" value="Car">
+        <label for="car" class="checkbox-label">Car</label><br>
 
-    <input type="checkbox" id="nature" name="categories[]" value="Nature">
-    <label for="nature" class="checkbox-label">Nature</label><br>
+        <input type="checkbox" id="nature" name="categories[]" value="Nature">
+        <label for="nature" class="checkbox-label">Nature</label><br>
 
-    <input type="checkbox" id="portrait" name="categories[]" value="Portrait">
-    <label for="portrait" class="checkbox-label">Portrait</label><br>
-  </fieldset>
+        <input type="checkbox" id="portrait" name="categories[]" value="Portrait">
+        <label for="portrait" class="checkbox-label">Portrait</label><br>
+      </fieldset>
 
-  <input class="submitbtn" type="submit" value="Submit">
-</form>
-</div>
-    
-      <!-- <?php include_once("../inc/foot.inc.php"); ?> This is the footer -->
+      <input class="submitbtn" type="submit" value="Submit">
+    </form>
+    </div>
     </body>
     
     </html>

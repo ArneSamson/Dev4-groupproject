@@ -1,5 +1,7 @@
 <?php
 // Define a Prompts class
+
+
 class Prompts
 {
     private $conn;
@@ -15,24 +17,11 @@ class Prompts
     private $fileError;
     private $fileType;
     private $selectedCategories;
+    private $onlin;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
-    }
-
-    public function validatePrompt($promptId)
-    {
-        $query = $this->conn->prepare("UPDATE prompts SET onlin = 1 WHERE id = :id");
-        $query->bindValue(":id", $promptId);
-        $query->execute();
-    }
-
-    public function invalidatePrompt($promptId)
-    {
-        $query = $this->conn->prepare("DELETE FROM prompts WHERE id = :id");
-        $query->bindValue(":id", $promptId);
-        $query->execute();
     }
 
     // Getters and Setters
@@ -76,6 +65,16 @@ class Prompts
         $this->price = $price;
     }
 
+    public function getOnlin()
+    {
+        return $this->onlin;
+    }
+
+    public function setOnlin($onlin)
+    {
+        $this->onlin = $onlin;
+    }
+
     public function getPrompt()
     {
         return $this->prompt;
@@ -104,6 +103,16 @@ class Prompts
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+    }
+
+    public function setFileType($fileType)
+    {
+        $this->fileType = $fileType;
+    }
+
+    public function getFileType()
+    {
+        return $this->fileType;
     }
 
     public function getFileTempName()
@@ -166,6 +175,7 @@ class Prompts
                 $message = "Upload failed with error code $this->fileError.";
                 exit;
             }
+            
 
             // Check file size
             if ($this->fileSize > 1000000) {
@@ -182,11 +192,11 @@ class Prompts
             }
 
             // Save uploaded file to disk
-            $uploadsDir = "../media/";
-            $fileName = basename($this->fileName);
+            $uploadsDir = "..\\media\\";
+            $fileName = basename($this->fileTempName);
             $filePath = $uploadsDir . $fileName;
-            $absoluteFilePath = realpath($filePath);
-            if (!$absoluteFilePath || !move_uploaded_file($this->fileTempName, $absoluteFilePath)) {
+
+            if (!move_uploaded_file($this->fileTempName, $filePath)) {
                 $message = "Failed to move uploaded file.";
                 exit;
             }
@@ -198,7 +208,7 @@ class Prompts
                     $this->selectedCategories[] = $category;
                 }
             }
-            $categoriesStr = implode(", ", $this->selectedCategories);
+            $categoriesStr = implode(",", $this->selectedCategories);
 
             // Insert data into the database, including image file name
             $currentDate = date("Y-m-d H:i:s");
@@ -216,7 +226,23 @@ class Prompts
             $query->bindValue(":model", $this->model);
             $query->execute();
 
-            header('Location: ../php/success.php');
         }
+        
     }
+
+    
+    public function validatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("UPDATE prompts SET onlin = 1 WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
+    public function invalidatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("DELETE FROM prompts WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
 }

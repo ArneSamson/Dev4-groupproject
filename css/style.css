@@ -25,6 +25,7 @@ body {
 .containerHome {
     text-align: center;
     padding: 20px;
+    margin-top: 50px;
 }
 
 .navbar {
@@ -73,6 +74,38 @@ body {
 .navbar__button--logout {
     background-color: #FF4E4E;
 }
+
+.navbar__search-input {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 8px;
+}
+
+.navbar__search-button {
+  padding: 8px 12px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.navbar__search-button:hover {
+  background-color: #00FFCB;
+}
+
+.navbar__search-button:focus {
+  outline: none;
+}
+
+.navbar__button--credit {
+  margin-right: auto;
+}
+
 .containerHome h1 {
     font-size: 24px;
     margin-bottom: 20px;
