@@ -10,17 +10,21 @@ if (!isset($_SESSION["user_id"]) || !in_array($_SESSION["role"], ['admin', 'mode
 try {
     $conn = Db::getInstance();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Check if the database connection is successful
+    if ($conn) {
+      echo "Database connection successful!";
+  } else {
+      echo "Failed to connect to the database.";
+  }
 } catch (PDOException $e) {
     $message = "Try again later: " . $e->getMessage();
-    exit;
+    exit($message);
 }
 
 $prompts = new Prompts($conn);
 
-// Retrieve prompts that need validation
-$query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 0");
-$query->execute();
-$promptsList = $query->fetchAll(PDO::FETCH_ASSOC);
+$promptsList = $prompts->getPromptsForValidation();
 
 // Handle button actions
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -35,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Display the prompts in a table
 ?>
+
 
 <table>
     <thead>

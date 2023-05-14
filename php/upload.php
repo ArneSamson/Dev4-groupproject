@@ -86,13 +86,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
       <!-- <?php include_once("../inc/functions.inc.php"); ?>  -->
       <!-- This is the nav bar -->
+
+      
     
       <div class="form-container">
-<form class="uploadform" enctype="multipart/form-data" method="POST">
-  <h2>Upload a new prompt</h2>
-  <?php if (isset($error)) : ?> <!-- if error message is set -->
-    <p class="errormessage"><?php echo $error ?></p> <!-- display error message -->
-  <?php endif; ?>
+      <form class="uploadform" enctype="multipart/form-data" method="POST">
+        <h2>Upload a new prompt</h2>
+        <?php if (isset($error)) : ?> <!-- if error message is set -->
+          <p class="errormessage"><?php echo $error ?></p> <!-- display error message -->
+        <?php endif; ?>
 
   <fieldset>
     <legend>Basic Information</legend>

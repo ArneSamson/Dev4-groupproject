@@ -279,5 +279,17 @@ class Prompts
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getPromptsForValidation()
+{
+    try {
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 0");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $message = "Try again later: " . $e->getMessage();
+        exit;
+    }
+}
+
 
 }

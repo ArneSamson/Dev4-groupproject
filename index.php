@@ -28,24 +28,8 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.php" class="navbar__logo">Prompt Engine</a>
-        <form action="php/prompts.php" method="GET" class="navbar__search">
-            <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
-            <button type="submit" class="navbar__search-button">Search</button>
-        </form>
-        <div class="navbar__buttons">
-            <div class="navbar__button--credit">Credits: 0</div>
-            <a href="php/profile.php?user_id=<?php echo $user_id; ?>" class="navbar__button">Edit Profile</a>
-            <?php if ($user_role === "admin") : ?>
-                <a href="php/roles.php" class="navbar__button">Roles</a>
-            <?php endif; ?>
-            <?php if ($user_role === "admin" || $user_role === "moderator") : ?>
-                <a href="php/validate.php" class="navbar__button">Validate</a>
-            <?php endif; ?>
-            <a href="?logout=true" class="navbar__button navbar__button--logout">Log out</a>
-        </div>
-    </nav>
+    <?php include_once("php/navbar.php"); ?>
+
 
     <div class="containerHome">
         <h1>DALL·E, GPT, Midjourney, Stable Diffusion, ChatGPT Prompt Marketplace</h1>
