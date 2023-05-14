@@ -17,7 +17,6 @@ if (isset($_GET['logout'])) {
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-$prompts = Prompts::getPromptsBySearchQuery($searchQuery);
 
 ?>
 

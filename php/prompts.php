@@ -16,8 +16,8 @@ if (isset($_GET['logout'])) {
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
+// Get the filtered prompts based on the search query
 $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
-
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +31,7 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
     <?php include_once("navbar.php"); ?>
     <div class="containerPrompts">
         <div class="filter">
+        <form method="GET" action="prompts.php">
             <button class="filter__clear">Clear filter</button>
             <div class="filter__section">
                 <div class="filter__section-title">Sort by</div>
@@ -40,22 +41,25 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
             </div>
             <div class="filter__section">
                 <div class="filter__section-title">Model</div>
-                <label><input type="checkbox" name="model"> All</label>
-                <label><input type="checkbox" name="model"> Dalle</label>
-                <label><input type="checkbox" name="model"> Midjourney</label>
-                <label><input type="checkbox" name="model"> Stable Diffusion</label>
-                <label><input type="checkbox" name="model"> Lexica</label>
+                <label><input type="checkbox" name="model[]" value="all"> All</label>
+                <label><input type="checkbox" name="model[]" value="dalle"> Dalle</label>
+                <label><input type="checkbox" name="model[]" value="midjourney"> Midjourney</label>
+                <label><input type="checkbox" name="model[]" value="stable_diffusion"> Stable Diffusion</label>
+                <label><input type="checkbox" name="model[]" value="lexica"> Lexica</label>
             </div>
             <div class="filter__section">
                 <div class="filter__section-title">Category</div>
-                <label><input type="checkbox" name="category"> All</label>
-                <label><input type="checkbox" name="category"> Space</label>
-                <label><input type="checkbox" name="category"> Game</label>
-                <label><input type="checkbox" name="category"> Car</label>
-                <label><input type="checkbox" name="category"> Nature</label>
-                <label><input type="checkbox" name="category"> Portrait</label>
+                <label><input type="checkbox" name="category[]" value="all"> All</label>
+                <label><input type="checkbox" name="category[]" value="space"> Space</label>
+                <label><input type="checkbox" name="category[]" value="game"> Game</label>
+                <label><input type="checkbox" name="category[]" value="car"> Car</label>
+                <label><input type="checkbox" name="category[]" value="nature"> Nature</label>
+                <label><input type="checkbox" name="category[]" value="portrait"> Portrait</label>
             </div>
-        </div>
+            <input type="hidden" name="search" value="<?php echo htmlspecialchars($searchQuery); ?>">
+            <button type="submit" class="filter__apply">Apply Changes</button>
+        </form>
+    </div>
 
         <div class="prompt-cards">
             <?php if (empty($prompts)) : ?>
@@ -83,7 +87,5 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
     </div>
 </body>
 
-
-</html>
 
 </html>

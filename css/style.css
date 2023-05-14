@@ -155,7 +155,10 @@ body {
 }
 
 .prompt-card:hover {
-  transform: translateY(-3px);
+  /* make the transform take a second */
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
 }
 
 .prompt-card__image {

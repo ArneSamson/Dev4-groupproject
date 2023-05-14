@@ -24,8 +24,7 @@ class Prompts
         $this->conn = $conn;
     }
 
-    public static function getPromptsBySearchQuery($searchQuery)
-    {
+    public static function getPromptsBySearchQuery($searchQuery) {
         try {
             $conn = Db::getInstance();
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -33,8 +32,9 @@ class Prompts
             $prompts = array();
 
             if (!empty($searchQuery)) {
-                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
-                $query->bindValue(":search", "%$searchQuery%");
+                $search = '%' . strtolower($searchQuery) . '%';
+                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND LOWER(name) LIKE :search");
+                $query->bindValue(":search", $search);
                 $query->execute();
                 $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
             } else {
@@ -49,6 +49,8 @@ class Prompts
             exit;
         }
     }
+
+    
 
     // Getters and Setters
     public function getName()
@@ -290,6 +292,38 @@ class Prompts
         exit;
     }
 }
+    
+
+    public static function filterPrompts($selectedModels, $selectedCategories)
+    {
+        try {
+            $conn = Db::getInstance();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM prompts WHERE onlin = 1";
+
+            if (!empty($selectedModels) && !in_array("all", $selectedModels)) {
+                $selectedModelsStr = implode("', '", $selectedModels);
+                $query .= " AND model IN ('$selectedModelsStr')";
+            }
+
+            if (!empty($selectedCategories) && !in_array("all", $selectedCategories)) {
+                $selectedCategoriesStr = implode("', '", $selectedCategories);
+                $query .= " AND category IN ('$selectedCategoriesStr')";
+            }
+
+            $query .= " ORDER BY name"; // Sort by name, modify as needed
+
+            $statement = $conn->prepare($query);
+            $statement->execute();
+            $prompts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            return $prompts;
+        } catch (PDOException $e) {
+            $message = "Try again later: " . $e->getMessage();
+            exit;
+        }
+    }
 
 
 }

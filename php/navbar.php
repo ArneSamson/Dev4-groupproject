@@ -4,12 +4,10 @@
             Prompt Engine
         </a>
     </div>
-    <form method="GET" action="">
+    <form method="GET" action="<?php echo basename($_SERVER['PHP_SELF']) === 'index.php' ? 'php/prompts.php' : 'prompts.php'; ?>">
         <div class="navbar__search">
-            <form action="index.php" method="GET">
-                <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
-                <button type="submit" class="navbar__search-button">Search</button>
-            </form>
+            <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
+            <button type="submit" class="navbar__search-button">Search</button>
         </div>
     </form>
     <div class="navbar__buttons">
