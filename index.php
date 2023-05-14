@@ -29,14 +29,10 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar__logo">Prompt Engine</div>
-        <form method="GET" action="">
-        <div class="navbar__search">
-            <form action="index.php" method="GET">
-                <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
-                <button type="submit" class="navbar__search-button">Search</button>
-            </form>
-        </div>
+        <a href="index.php" class="navbar__logo">Prompt Engine</a>
+        <form action="php/prompts.php" method="GET" class="navbar__search">
+            <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
+            <button type="submit" class="navbar__search-button">Search</button>
         </form>
         <div class="navbar__buttons">
             <div class="navbar__button--credit">Credits: 0</div>
@@ -52,29 +48,9 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
     </nav>
 
     <div class="containerHome">
-        <h1>DALL·E, GPT, Midjourney, Stable Diffusion, ChatGPT
-Prompt Marketplace</h1>
+        <h1>DALL·E, GPT, Midjourney, Stable Diffusion, ChatGPT Prompt Marketplace</h1>
         <button onclick="window.location.href='php/upload.php'" class="btn btn--upload">Upload Prompt</button>
-        <div class="prompt-cards">
-            <?php if (empty($prompts)) : ?>
-                <p>No prompts found.</p>
-            <?php else : ?>
-                <?php foreach ($prompts as $prompt) : ?>
-                    <div class="prompt-card">
-                        <?php
-                            $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
-                            $imagePath = "media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
-                        ?>
-                        <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
-                        <h3><?php echo $prompt['name']; ?></h3>
-                        <p><?php echo $prompt['description']; ?></p>
-                        <p><?php echo $prompt['price']; ?></p>
-                        <p><?php echo $prompt['tags']; ?></p>
-                        <p><?php echo $prompt['model']; ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+        <button onclick="window.location.href='php/prompts.php'" class="btn btn--upload">View Prompts</button>
     </div>
 </body>
 </html>
