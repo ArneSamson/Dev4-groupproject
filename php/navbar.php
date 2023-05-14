@@ -12,12 +12,12 @@
     </form>
     <div class="navbar__buttons">
         <div class="navbar__button--credit">Credits: 0</div>
-        <a href="<?php echo basename($_SERVER['PHP_SELF']) === 'profile.php' ? 'profile.php?user_id='.$user_id : 'php/profile.php?user_id='.$user_id; ?>" class="navbar__button">Edit Profile</a>
+        <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? '../php/profile.php?user_id='.$user_id : 'php/profile.php?user_id='.$user_id; ?>" class="navbar__button">Edit Profile</a>
         <?php if ($user_role === "admin") : ?>
-            <a href="<?php echo basename($_SERVER['PHP_SELF']) === 'index.php' ? 'php/roles.php' : '../roles.php'; ?>" class="navbar__button">Roles</a>
+            <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'roles.php' : 'php/roles.php'; ?>" class="navbar__button">Roles</a>
         <?php endif; ?>
         <?php if ($user_role === "admin" || $user_role === "moderator") : ?>
-            <a href="<?php echo basename($_SERVER['PHP_SELF']) === 'index.php' ? 'php/validate.php' : '../validate.php'; ?>" class="navbar__button">Validate</a>
+            <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'validate.php' : 'php/validate.php'; ?>" class="navbar__button">Validate</a>
         <?php endif; ?>
         <a href="?logout=true" class="navbar__button navbar__button--logout">Log out</a>
     </div>
