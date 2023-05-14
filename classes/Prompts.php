@@ -245,4 +245,13 @@ class Prompts
         $query->execute();
     }
 
+    public function searchPrompts($searchQuery)
+    {
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
+        $query->bindValue(":search", "%$searchQuery%");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }

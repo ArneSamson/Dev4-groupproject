@@ -15,20 +15,29 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Retrieve prompts from the database where 'onlin' is 1
+// Retrieve prompts from the database based on the search query
 try {
     $conn = Db::getInstance();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1");
-    $query->execute();
-    $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+    $prompts = array();
+
+    if (!empty($searchQuery)) {
+        $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
+        $query->bindValue(":search", "%$searchQuery%");
+        $query->execute();
+        $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1");
+        $query->execute();
+        $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 } catch (PDOException $e) {
     $message = "Try again later: " . $e->getMessage();
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -40,10 +49,14 @@ try {
 <body>
     <nav class="navbar">
         <div class="navbar__logo">Prompt Engine</div>
+        <form method="GET" action="">
         <div class="navbar__search">
-            <input type="text" placeholder="Search" class="navbar__search-input">
-            <button class="navbar__search-button">Search</button>
+            <form action="index.php" method="GET">
+                <input type="text" placeholder="Search" name="search" class="navbar__search-input" value="<?php echo $searchQuery; ?>">
+                <button type="submit" class="navbar__search-button">Search</button>
+            </form>
         </div>
+        </form>
         <div class="navbar__buttons">
             <div class="navbar__button--credit">Credits: 0</div>
             <a href="php/profile.php?user_id=<?php echo $user_id; ?>" class="navbar__button">Edit Profile</a>
@@ -61,10 +74,11 @@ try {
         <h1>DALL·E, GPT, Midjourney, Stable Diffusion, ChatGPT
 Prompt Marketplace</h1>
         <button onclick="window.location.href='php/upload.php'" class="btn btn--upload">Upload Prompt</button>
-
         <div class="prompt-cards">
-            <?php foreach ($prompts as $prompt) : ?>
-                <div class="prompt-card">
+            <?php if (empty($prompts)) : ?>
+                <p>No prompts found.</p>
+            <?php else : ?>
+                <?php foreach ($prompts as $prompt) : ?>
                     <?php
                         $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
                         $imagePath = "media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
@@ -75,8 +89,8 @@ Prompt Marketplace</h1>
                     <p><?php echo $prompt['price']; ?></p>
                     <p><?php echo $prompt['tags']; ?></p>
                     <p><?php echo $prompt['model']; ?></p>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </body>
