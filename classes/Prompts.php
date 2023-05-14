@@ -50,6 +50,55 @@ class Prompts
         }
     }
 
+    public static function getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy)
+{
+    try {
+        $conn = Db::getInstance();
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $prompts = array();
+
+        $query = "SELECT * FROM prompts WHERE onlin = 1";
+
+        if (!empty($searchQuery)) {
+            $search = '%' . strtolower($searchQuery) . '%';
+            $query .= " AND LOWER(name) LIKE :search";
+        }
+
+        if (!empty($selectedModels) && !in_array("all", $selectedModels)) {
+            $models = implode("', '", $selectedModels);
+            $query .= " AND model IN ('$models')";
+        }
+
+        if (!empty($selectedCategories) && !in_array("all", $selectedCategories)) {
+            $categories = implode("', '", $selectedCategories);
+            $query .= " AND category IN ('$categories')";
+        }
+
+        // Sort the results
+        if ($sortBy === "name") {
+            $query .= " ORDER BY name";
+        } elseif ($sortBy === "price_up") {
+            $query .= " ORDER BY price ASC";
+        } elseif ($sortBy === "price_down") {
+            $query .= " ORDER BY price DESC";
+        }
+
+        $stmt = $conn->prepare($query);
+
+        if (!empty($searchQuery)) {
+            $stmt->bindValue(":search", $search);
+        }
+
+        $stmt->execute();
+        $prompts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $prompts;
+    } catch (PDOException $e) {
+        $message = "Try again later: " . $e->getMessage();
+        exit;
+    }
+}
     
 
     // Getters and Setters
@@ -293,37 +342,5 @@ class Prompts
     }
 }
     
-
-    public static function filterPrompts($selectedModels, $selectedCategories)
-    {
-        try {
-            $conn = Db::getInstance();
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $query = "SELECT * FROM prompts WHERE onlin = 1";
-
-            if (!empty($selectedModels) && !in_array("all", $selectedModels)) {
-                $selectedModelsStr = implode("', '", $selectedModels);
-                $query .= " AND model IN ('$selectedModelsStr')";
-            }
-
-            if (!empty($selectedCategories) && !in_array("all", $selectedCategories)) {
-                $selectedCategoriesStr = implode("', '", $selectedCategories);
-                $query .= " AND category IN ('$selectedCategoriesStr')";
-            }
-
-            $query .= " ORDER BY name"; // Sort by name, modify as needed
-
-            $statement = $conn->prepare($query);
-            $statement->execute();
-            $prompts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-            return $prompts;
-        } catch (PDOException $e) {
-            $message = "Try again later: " . $e->getMessage();
-            exit;
-        }
-    }
-
 
 }

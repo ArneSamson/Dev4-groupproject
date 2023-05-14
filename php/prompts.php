@@ -15,9 +15,15 @@ if (isset($_GET['logout'])) {
 }
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+$selectedModels = isset($_GET['model']) ? $_GET['model'] : array();
+$selectedCategories = isset($_GET['category']) ? $_GET['category'] : array();
+$sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : '';
 
 // Get the filtered prompts based on the search query
 $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
+
+$prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy);
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +50,7 @@ $prompts = Prompts::getPromptsBySearchQuery($searchQuery);
                 <label><input type="checkbox" name="model[]" value="all"> All</label>
                 <label><input type="checkbox" name="model[]" value="dalle"> Dalle</label>
                 <label><input type="checkbox" name="model[]" value="midjourney"> Midjourney</label>
-                <label><input type="checkbox" name="model[]" value="stable_diffusion"> Stable Diffusion</label>
+                <label><input type="checkbox" name="model[]" value="stablediffusion"> Stable Diffusion</label>
                 <label><input type="checkbox" name="model[]" value="lexica"> Lexica</label>
             </div>
             <div class="filter__section">
