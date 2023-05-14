@@ -245,7 +245,6 @@ class User {
         
         $this->setRole('user');
     }
-
     
 
     public function authenticate($password) {
