@@ -17,27 +17,8 @@ if (isset($_GET['logout'])) {
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Retrieve prompts from the database based on the search query
-try {
-    $conn = Db::getInstance();
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$prompts = Prompts::getPromptsBySearchQuery($searchQuery);
 
-    $prompts = array();
-
-    if (!empty($searchQuery)) {
-        $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
-        $query->bindValue(":search", "%$searchQuery%");
-        $query->execute();
-        $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1");
-        $query->execute();
-        $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
-    }
-} catch (PDOException $e) {
-    $message = "Try again later: " . $e->getMessage();
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -79,16 +60,18 @@ Prompt Marketplace</h1>
                 <p>No prompts found.</p>
             <?php else : ?>
                 <?php foreach ($prompts as $prompt) : ?>
-                    <?php
-                        $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
-                        $imagePath = "media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
-                    ?>
-                    <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
-                    <h3><?php echo $prompt['name']; ?></h3>
-                    <p><?php echo $prompt['description']; ?></p>
-                    <p><?php echo $prompt['price']; ?></p>
-                    <p><?php echo $prompt['tags']; ?></p>
-                    <p><?php echo $prompt['model']; ?></p>
+                    <div class="prompt-card">
+                        <?php
+                            $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
+                            $imagePath = "media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
+                        ?>
+                        <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
+                        <h3><?php echo $prompt['name']; ?></h3>
+                        <p><?php echo $prompt['description']; ?></p>
+                        <p><?php echo $prompt['price']; ?></p>
+                        <p><?php echo $prompt['tags']; ?></p>
+                        <p><?php echo $prompt['model']; ?></p>
+                    </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

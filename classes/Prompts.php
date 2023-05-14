@@ -24,6 +24,32 @@ class Prompts
         $this->conn = $conn;
     }
 
+    public static function getPromptsBySearchQuery($searchQuery)
+    {
+        try {
+            $conn = Db::getInstance();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $prompts = array();
+
+            if (!empty($searchQuery)) {
+                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
+                $query->bindValue(":search", "%$searchQuery%");
+                $query->execute();
+                $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1");
+                $query->execute();
+                $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            return $prompts;
+        } catch (PDOException $e) {
+            $message = "Try again later: " . $e->getMessage();
+            exit;
+        }
+    }
+
     // Getters and Setters
     public function getName()
     {
