@@ -46,12 +46,12 @@ $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedC
                 <label><input type="checkbox" name="sort"> Price (down)</label>
             </div>
             <div class="filter__section">
-                <div class="filter__section-title">Model</div>
-                <label><input type="checkbox" name="model[]" value="all"> All</label>
-                <label><input type="checkbox" name="model[]" value="dalle"> Dalle</label>
-                <label><input type="checkbox" name="model[]" value="midjourney"> Midjourney</label>
-                <label><input type="checkbox" name="model[]" value="stablediffusion"> Stable Diffusion</label>
-                <label><input type="checkbox" name="model[]" value="lexica"> Lexica</label>
+            <div class="filter__section-title">Model</div>
+            <label><input type="checkbox" name="model[]" value="all" <?php echo in_array("all", $selectedModels) ? "checked" : ""; ?>> All</label>
+            <label><input type="checkbox" name="model[]" value="dalle" <?php echo in_array("dalle", $selectedModels) ? "checked" : ""; ?>> Dalle</label>
+            <label><input type="checkbox" name="model[]" value="midjourney" <?php echo in_array("midjourney", $selectedModels) ? "checked" : ""; ?>> Midjourney</label>
+            <label><input type="checkbox" name="model[]" value="stablediffusion" <?php echo in_array("stable_diffusion", $selectedModels) ? "checked" : ""; ?>> Stable Diffusion</label>
+            <label><input type="checkbox" name="model[]" value="lexica" <?php echo in_array("lexica", $selectedModels) ? "checked" : ""; ?>> Lexica</label>
             </div>
             <div class="filter__section">
                 <div class="filter__section-title">Category</div>
@@ -63,7 +63,7 @@ $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedC
                 <label><input type="checkbox" name="category[]" value="portrait"> Portrait</label>
             </div>
             <input type="hidden" name="search" value="<?php echo htmlspecialchars($searchQuery); ?>">
-            <button type="submit" class="filter__apply">Apply Changes</button>
+            <button type="submit" class="btn--upload">Apply Changes</button>
         </form>
     </div>
 
