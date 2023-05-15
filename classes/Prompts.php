@@ -344,6 +344,22 @@ class Prompts
         exit;
     }
 }
+
+    public static function getPromptById($promptId)
+    {
+        try {
+            $conn = Db::getInstance();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = $conn->prepare("SELECT * FROM prompts WHERE id = :id");
+            $query->bindValue(":id", $promptId);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $message = "Try again later: " . $e->getMessage();
+            exit;
+        }
+    }
     
 
 }

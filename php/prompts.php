@@ -60,20 +60,22 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 <p class="prompt-cards-not-found">No prompts found.</p>
             <?php else : ?>
                 <?php foreach ($prompts as $prompt) : ?>
-                <div class="prompt-card">
-                    <?php
-                    $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
-                    $imagePath = "../media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
-                    ?>
-                    <div class="prompt-card__image">
-                    <div class="prompt-card__model"><?php echo $prompt['model']; ?></div>
-                    <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
+                    <div class="prompt-card">
+                        <?php
+                        $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
+                        $imagePath = "../media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
+                        ?>
+                        <a href="promptDetails.php?id=<?php echo $prompt['id']; ?>">
+                            <div class="prompt-card__image">
+                                <div class="prompt-card__model"><?php echo $prompt['model']; ?></div>
+                                <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
+                            </div>
+                            <div class="prompt-card__details">
+                                <div class="prompt-card__name"><?php echo $prompt['name']; ?></div>
+                                <div class="prompt-card__price"><?php echo "€ " . $prompt['price']; ?></div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="prompt-card__details">
-                    <div class="prompt-card__name"><?php echo $prompt['name']; ?></div>
-                    <div class="prompt-card__price"><?php echo "€ " . $prompt['price']; ?></div>
-                    </div>
-                </div>
                 <?php endforeach; ?>
             <?php endif; ?>
             </div>

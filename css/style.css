@@ -304,7 +304,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 50px;
   padding: 20px;
   margin-right: 50%; /* Add margin-left to move the section to the left */
 }
@@ -419,6 +418,53 @@ body {
 
 .user-table__button:hover {
   background-color: #4452ff;
+}
+
+.containerPromptDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prompt-details__info {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.prompt-details__info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.prompt-details__info p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.prompt-details__info .price {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.prompt-details__info .get-prompt-button {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f2f2f2;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.prompt-details__image {
+  flex: 1;
+  text-align: center;
+}
+
+.prompt-details__image img {
+  max-width: 300px; /* Adjust the size as needed */
 }
 
 @keyframes gradient {
