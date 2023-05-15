@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
       <!-- <?php include_once("../inc/functions.inc.php"); ?>  -->
       <!-- This is the nav bar -->
-
+      <?php include_once("navbar.php"); ?>
       
     
       <div class="form-container">

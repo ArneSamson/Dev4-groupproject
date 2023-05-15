@@ -40,7 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Validate your prompt</title>
+      <link rel="stylesheet" href="../css/style.css" />
+    </head>
+<?php include_once("navbar.php"); ?>
 
 <table>
     <thead>
@@ -61,13 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <td>
                     <form method="post">
                         <input type="hidden" name="validate" value="<?php echo $prompt['id']; ?>">
-                        <button type="submit">Validate</button>
+                        <button class = "button--validate" type="submit">Validate</button>
                     </form>
                 </td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="invalidate" value="<?php echo $prompt['id']; ?>">
-                        <button type="submit">Invalidate</button>
+                        <button class = "button--validate" type="submit">Invalidate</button>
                     </form>
                 </td>
             </tr>

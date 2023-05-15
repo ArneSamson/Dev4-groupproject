@@ -1,3 +1,22 @@
+<?php
+if (!isset($_SESSION["user_id"])) {
+    $user_id = "";
+} else {
+    $user_id = $_SESSION["user_id"];
+    $user_role = $_SESSION["role"];
+}
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: php/login.php");
+    exit;
+}
+
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+?>
+
+
+
 <nav class="navbar">
     <div class="navbar__logo">
         <a href="<?php echo basename($_SERVER['PHP_SELF']) === 'index.php' ? 'index.php' : '../index.php'; ?>">
