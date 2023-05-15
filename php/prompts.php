@@ -13,6 +13,19 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy);
 }
 
+//function to uncheck all checkboxes and radio buttons
+
+function clearFilters() {
+    // Redirect to the same page to clear the filters
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit;
+}
+
+// Check if the clear button is clicked
+if (isset($_GET['clear'])) {
+    clearFilters();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     <div class="containerPrompts">
         <div class="filter">
         <form method="GET" action="prompts.php">
-            <button class="filter__clear">Clear filter</button>
+            <button type="submit" class="filter__clear" name="clear">Clear Filters</button>
             <div class="filter__section">
             <div class="filter__section-title">Sort by</div>
                 <label><input type="radio" name="sortBy" value="name"> Name</label>

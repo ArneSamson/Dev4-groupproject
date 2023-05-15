@@ -305,6 +305,7 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px;
+  margin-top: 30px;
   margin-right: 50%; /* Add margin-left to move the section to the left */
 }
 
