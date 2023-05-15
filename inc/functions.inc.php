@@ -33,16 +33,16 @@ function canLogIn($p_username, $p_password) {
     return false;
 }
 
-function updateUser($user_id, $username, $email, $password, $conn, $image)
+function updateUser($user_id, $username, $email, $password, $role, $conn)
 {
     try {
         $conn = Db::getInstance();
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $statement = $conn->prepare("UPDATE users SET username = :username, email = :email, password = :password, imagepath = :imagepath WHERE id = :id");
+        $statement = $conn->prepare("UPDATE users SET username = :username, email = :email, password = :password, role = :role WHERE id = :id");
         $statement->bindValue(":username", $username);
         $statement->bindValue(":email", $email);
         $statement->bindValue(":password", $hash);
-        $statement->bindValue(":imagepath", $image);
+        $statement->bindValue(":role", $role);
         $statement->bindValue(":id", $user_id);
         $statement->execute();
         return true;
@@ -51,4 +51,3 @@ function updateUser($user_id, $username, $email, $password, $conn, $image)
         return false;
     }
 }
-
