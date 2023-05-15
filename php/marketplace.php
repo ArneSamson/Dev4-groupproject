@@ -53,7 +53,9 @@ $data = $statement->fetchAll(PDO::FETCH_ASSOC);
     <body style="height: auto">
 
     <nav class="navbar">
-        <div class="navbar__logo">Prompt Engine</div>
+        <div class="navbar__logo">
+            <a style="text-decoration: none;" href="../index.php">Prompt Engine</a>
+        </div>
         <div class="navbar__buttons">
             <div class="navbar__button navbar__button--credit">Credits: 0</div>
             <a href="php/profile.php?user_id=<?php echo $user_id; ?>">Edit Profile</a>
