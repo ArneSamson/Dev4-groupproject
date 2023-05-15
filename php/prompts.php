@@ -9,6 +9,7 @@ $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : '';
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     // Add $sortBy to the query string when generating the prompts list
+    $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
     $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy);
 }
 
