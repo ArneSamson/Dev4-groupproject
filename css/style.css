@@ -10,260 +10,360 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(-45deg, #ff6536, #f02070, #31c8ff, #27bb13);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg, #ff6536, #f02070, #31c8ff, #27bb13);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
+.container {
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+}
 
 .form {
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 40px;
-    width: 400px;
+  width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form__title {
-    font-size: 24px;
-    margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form__success,
+.form__error {
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.form__success {
+  background-color: #00ff00;
+  color: #fff;
+}
+
+.form__error {
+  background-color: #ff0000;
+  color: #fff;
 }
 
 .form__field {
-    margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .form__field label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
-.form__field input {
-    width: 100%;
-    border: 1px solid #ccc;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.form__field input:focus {
-    border-color: #2ecc71;
-}
-
-.form__field .form__error {
-    color: #c0392b;
-    margin-top: 5px;
+.form__field input[type="text"],
+.form__field input[type="email"],
+.form__field input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .form__field input[type="submit"] {
-    display: inline-block;
-    background-color: #6B78FF;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .form__field input[type="submit"]:hover {
-    background-color: #00FFCB;
+  background-color: #00FFCB;
 }
 
-.form__button {
-    background-color: #6B78FF;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.form__field input[type="file"] {
+  display: block;
+  margin-top: 5px;
 }
 
-.form__button:hover {
-    background-color: #fff;
-    color: #6B78FF;
-    border: 2px solid #6B78FF;
+.form__field img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
 }
 
+.containerHome {
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+}
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-    padding: 0 50px;
-    background: linear-gradient(to bottom right, #6B78FF, #00FFCB);
-    z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .navbar__logo {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.navbar__menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.navbar__buttons {
+  display: flex;
+  align-items: center;
 }
 
-.navbar__menu a {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+.navbar__button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
-.navbar__menu a:hover {
-    color: #2ecc71;
+.navbar__button--credit {
+  margin-right: auto;
 }
 
-.navbar__toggle {
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: none;
+.navbar__button:hover {
+  background-color: #00FFCB;
 }
 
+.navbar__button--logout {
+  background-color: #FF4E4E;
+}
+
+.navbar__search-input {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 8px;
+}
+
+.navbar__search-button {
+  padding: 8px 12px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.navbar__search-button:hover {
+  background-color: #00FFCB;
+}
+
+.navbar__search-button:focus {
+  outline: none;
+}
+
+.navbar__button--credit {
+  margin-right: auto;
+}
+
+.containerHome h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 
 .btn--upload {
-    background-color: #6B78FF;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1em;
+  margin-bottom: 50px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
 }
 
 .btn--upload:hover {
-    background-color: #fff;
-    color: #6B78FF;
-    border: 2px solid #6B78FF;
+  background-color: #fff;
+  color: #6B78FF;
+  border: 2px solid #6B78FF;
 }
 
 .btn--upload:active {
-    background-color: #fff;
-    color: #6B78FF;
-    border: 2px solid #6B78FF;
+  background-color: #fff;
+  color: #6B78FF;
+  border: 2px solid #6B78FF;
 }
 
-.uploadform {
-    max-width: 400px;
-    margin: 0 auto;
-  }
+.prompt-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 50px;
+}
 
-  .uploadform h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
+.prompt-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-basis: 25%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-right: 5px; /* Add margin-right to create spacing between cards */
+}
 
-  .uploadform fieldset {
-    border: none;
-    padding: 0;
-    margin-bottom: 20px;
-  }
+.prompt-card:hover {
+  /* make the transform take a second */
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
 
-  .uploadform legend {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+.prompt-card__image {
+  position: relative;
+  height: 70%;
+  overflow: hidden;
+}
 
-  .uploadform label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
+.prompt-card__model {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  font-size: 12px;
+}
 
-  .uploadform input,
-  .uploadform textarea,
-  .uploadform select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+.prompt-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  .uploadform input[type="checkbox"],
-  .uploadform input[type="file"] {
-    margin-top: 5px;
-  }
+.prompt-card__details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
 
-  .uploadform .checkbox-label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
+.prompt-card__name {
+  font-weight: bold;
+}
 
-  .uploadform .checkbox-label input[type="checkbox"] {
-    margin-right: 5px;
-  }
+.prompt-card__price {
+  color: #777;
+  font-size: 14px;
+}
 
-  .uploadform .submitbtn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
+.filter__clear {
+  padding: 6px 12px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
 
-  .checkbox-container {
-    max-height: 200px; /* Adjust the height as needed */
-    overflow-y: auto;
-  }
-  
-  .checkbox-heading {
-    font-weight: bold;
-  }
-  
-  .checkbox-scroll {
-    margin-top: 5px;
-    margin-left: 20px; /* Adjust the left margin as needed */
-  }
-  
-  .checkbox-label {
-    font-size: 14px; /* Adjust the font size as needed */
-  }
+.filter__clear:hover {
+  background-color: #00FFCB;
+}
 
-  .form-container {
-  max-height: 650px; /* Adjust the height as needed */
-  overflow-y: none;
-    float: left;
-width: 50%;
+.filter__clear:focus {
+  outline: none;
+}
+
+.containerPrompts {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 50px;
+  padding: 20px;
+  margin-right: 50%; /* Add margin-left to move the section to the left */
+}
+
+.filter {
+  width: 35%;
+}
+
+.prompt-cards {
+  width: 85%;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+
+/* Additional Styles for Filter Section */
+.filter__section {
+  margin-bottom: 30px;
+  margin-right: 30px; /* Add margin-right to move the filter section to the left */
+}
+
+.filter__section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filter__clear {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Adjusted Styles for Filter Boxes */
+.filter__section label {
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.prompt-cards-not-found {
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  margin-top: 30px;
 }
 
 
 @keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
+  0% {
+      background-position: 0% 50%;
+  }
 
-    50% {
-        background-position: 100% 50%;
-    }
+  50% {
+      background-position: 100% 50%;
+  }
 
-    100% {
-        background-position: 0% 50%;
-    }
+  100% {
+      background-position: 0% 50%;
+  }
 }

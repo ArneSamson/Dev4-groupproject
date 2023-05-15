@@ -16,21 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_POST['user_id'];
     $role = $_POST['role'];
 
-    $user = User::getById($user_id);
+    // Update the user role in the database
+    $conn = Db::getInstance();
+    $statement = $conn->prepare("UPDATE users SET role = :role WHERE id = :id");
+    $statement->bindValue(":role", $role);
+    $statement->bindValue(":id", $user_id);
+    $result = $statement->execute();
 
-    if (!$user) {
-        $errorMessage = "User not found.";
-    } else {
-        $user->setRole($role);
-        // Update the user's role in the database
-        // You might need to add a method in the User class to update the role
-        // For example: $user->updateRole($role);
-        // You can perform the necessary database operations here
-
+    if ($result) {
         $successMessage = "User role updated successfully.";
+    } else {
+        $errorMessage = "Failed to update user role.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -41,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar__logo">Prompt Engine</div>
+    <a href="../index.php" class="navbar__logo">Prompt Engine</a>
         <div class="navbar__buttons">
-            <a href="index.php">Home</a>
-            <a href="logout.php" class="navbar__button navbar__button--logout">Log out</a>
+            <a href="../index.php">Home</a>
+            <a href="../logout.php" class="navbar__button navbar__button--logout">Log out</a>
         </div>
     </nav>
 
@@ -60,13 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
 
         <table>
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Edit Role</th>
-                </tr>
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Edit Role</th>
+        </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
@@ -75,14 +73,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $user['username']; ?></td>
                         <td><?php echo $user['role']; ?></td>
                         <td>
-                            <form method="POST" action="">
+                            <form method="post">
                                 <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-
                                 <select name="role">
-                                    <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
-                                    <option value="user" <?php echo ($user['role'] === 'user') ? 'selected' : ''; ?>>User</option>
+                                    <option value="user">User</option>
+                                    <option value="moderator">Moderator</option>
+                                    <option value="admin">Admin</option>
                                 </select>
-                                <button type="submit">Edit</button>
+                                <button type="submit">Update</button>
                             </form>
                         </td>
                     </tr>

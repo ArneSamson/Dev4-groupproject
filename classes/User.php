@@ -183,8 +183,23 @@ class User {
         return $result;
     }
 
+    //function to setRole
     public function setRole($role) {
         $this->role = $role;
+    }
+
+    public function updateRole() {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("UPDATE users SET role = :role WHERE id = :id");
+        $statement->bindValue(":role", $this->role);
+        $statement->bindValue(":id", $this->id);
+        $result = $statement->execute();
+
+        if ($result) {
+            return true; // Role update successful
+        } else {
+            throw new Exception('Failed to update user role.'); // Role update failed
+        }
     }
     
     public function getRole() {
@@ -230,7 +245,6 @@ class User {
         
         $this->setRole('user');
     }
-
     
 
     public function authenticate($password) {

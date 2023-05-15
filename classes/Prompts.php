@@ -1,5 +1,7 @@
 <?php
 // Define a Prompts class
+
+
 class Prompts
 {
     private $conn;
@@ -15,11 +17,92 @@ class Prompts
     private $fileError;
     private $fileType;
     private $selectedCategories;
+    private $onlin;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
+
+    public static function getPromptsBySearchQuery($searchQuery) {
+        try {
+            $conn = Db::getInstance();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $prompts = array();
+
+            if (!empty($searchQuery)) {
+                $search = '%' . strtolower($searchQuery) . '%';
+                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND LOWER(name) LIKE :search");
+                $query->bindValue(":search", $search);
+                $query->execute();
+                $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $query = $conn->prepare("SELECT * FROM prompts WHERE onlin = 1");
+                $query->execute();
+                $prompts = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            return $prompts;
+        } catch (PDOException $e) {
+            $message = "Try again later: " . $e->getMessage();
+            exit;
+        }
+    }
+
+    public static function getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy)
+{
+    try {
+        $conn = Db::getInstance();
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $prompts = array();
+
+        $query = "SELECT * FROM prompts WHERE onlin = 1";
+
+        if (!empty($searchQuery)) {
+            $search = '%' . strtolower($searchQuery) . '%';
+            $query .= " AND LOWER(name) LIKE :search";
+        }
+
+        if (!empty($selectedModels) && !in_array("all", $selectedModels)) {
+            $models = implode("', '", $selectedModels);
+            $query .= " AND model IN ('$models')";
+            var_dump($query);
+        }
+
+        if (!empty($selectedCategories) && !in_array("all", $selectedCategories)) {
+            $categories = implode("','", $selectedCategories);
+            $query .= " AND categories IN ('$categories')";
+        }
+
+        // Sort the results
+        if ($sortBy === "name") {
+            $query .= " ORDER BY name";
+        } elseif ($sortBy === "price_up") {
+            $query .= " ORDER BY price ASC";
+        } elseif ($sortBy === "price_down") {
+            $query .= " ORDER BY price DESC";
+        }
+
+        $stmt = $conn->prepare($query);
+
+        if (!empty($searchQuery)) {
+            $stmt->bindValue(":search", $search);
+        }
+
+        $stmt->execute();
+        $prompts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $prompts;
+    } catch (PDOException $e) {
+        $message = "An error occurred: " . $e->getMessage();
+        error_log($message); // Log the error message to the PHP error log
+        exit($message); // Display the specific error message
+    }
+    
+}
+    
 
     // Getters and Setters
     public function getName()
@@ -62,6 +145,16 @@ class Prompts
         $this->price = $price;
     }
 
+    public function getOnlin()
+    {
+        return $this->onlin;
+    }
+
+    public function setOnlin($onlin)
+    {
+        $this->onlin = $onlin;
+    }
+
     public function getPrompt()
     {
         return $this->prompt;
@@ -90,6 +183,16 @@ class Prompts
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+    }
+
+    public function setFileType($fileType)
+    {
+        $this->fileType = $fileType;
+    }
+
+    public function getFileType()
+    {
+        return $this->fileType;
     }
 
     public function getFileTempName()
@@ -152,6 +255,7 @@ class Prompts
                 $message = "Upload failed with error code $this->fileError.";
                 exit;
             }
+            
 
             // Check file size
             if ($this->fileSize > 1000000) {
@@ -168,11 +272,11 @@ class Prompts
             }
 
             // Save uploaded file to disk
-            $uploadsDir = "../media/";
-            $fileName = basename($this->fileName);
+            $uploadsDir = "..\\media\\";
+            $fileName = basename($this->fileTempName);
             $filePath = $uploadsDir . $fileName;
-            $absoluteFilePath = realpath($filePath);
-            if (!$absoluteFilePath || !move_uploaded_file($this->fileTempName, $absoluteFilePath)) {
+
+            if (!move_uploaded_file($this->fileTempName, $filePath)) {
                 $message = "Failed to move uploaded file.";
                 exit;
             }
@@ -184,7 +288,7 @@ class Prompts
                     $this->selectedCategories[] = $category;
                 }
             }
-            $categoriesStr = implode(", ", $this->selectedCategories);
+            $categoriesStr = implode(",", $this->selectedCategories);
 
             // Insert data into the database, including image file name
             $currentDate = date("Y-m-d H:i:s");
@@ -202,7 +306,44 @@ class Prompts
             $query->bindValue(":model", $this->model);
             $query->execute();
 
-            header('Location: ../php/success.php');
         }
+        
     }
+
+    
+    public function validatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("UPDATE prompts SET onlin = 1 WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
+    public function invalidatePrompt($promptId)
+    {
+        $query = $this->conn->prepare("DELETE FROM prompts WHERE id = :id");
+        $query->bindValue(":id", $promptId);
+        $query->execute();
+    }
+
+    public function searchPrompts($searchQuery)
+    {
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
+        $query->bindValue(":search", "%$searchQuery%");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPromptsForValidation()
+{
+    try {
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 0");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $message = "Try again later: " . $e->getMessage();
+        exit;
+    }
+}
+    
+
 }
