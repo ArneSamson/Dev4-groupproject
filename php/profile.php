@@ -23,6 +23,12 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // // Check if a new password is entered
+    // if (empty($password)) {
+    //     $password = null; // set the password to null to avoid updating the password
+
+    // }
+
     $target_dir = "../media/pfp/";
 
     if (!empty($_FILES['profile_picture']['name'])) {
@@ -67,9 +73,10 @@ if (!empty($_POST)) {
             </div>
         <?php endif; ?>
 
-        <form method="post">
-            <div class="form__field">
-                <img src="<?php echo $user['imagepath']?>" alt="profilepicture" style="width: 100px; height: auto">
+        <form method="post" enctype="multipart/form-data">
+
+             <div class="form__field">
+                <img src=<?php echo $user['imagepath']?> alt="profilepicture" style="width: 100px; height: auto">
             </div>
             <div class="form__field">
                 <label for="username">Username:</label>
