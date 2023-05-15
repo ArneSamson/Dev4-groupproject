@@ -16,13 +16,15 @@ if (isset($_GET['logout'])) {
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 $selectedModels = isset($_GET['model']) ? $_GET['model'] : array();
-$selectedCategories = isset($_GET['category']) ? $_GET['category'] : array();
+$selectedCategories = isset($_GET['category']) ? $_GET['category'] : '';
+
+var_dump($selectedCategories);
 $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : '';
 
-// Get the filtered prompts based on the search query
-$prompts = Prompts::getPromptsBySearchQuery($searchQuery);
-
-$prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy);
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    // Add $sortBy to the query string when generating the prompts list
+    $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedCategories, $sortBy);
+}
 
 ?>
 
@@ -40,10 +42,10 @@ $prompts = Prompts::getFilteredPrompts($searchQuery, $selectedModels, $selectedC
         <form method="GET" action="prompts.php">
             <button class="filter__clear">Clear filter</button>
             <div class="filter__section">
-                <div class="filter__section-title">Sort by</div>
-                <label><input type="checkbox" name="sort"> Name</label>
-                <label><input type="checkbox" name="sort"> Price (up)</label>
-                <label><input type="checkbox" name="sort"> Price (down)</label>
+            <div class="filter__section-title">Sort by</div>
+                <label><input type="radio" name="sortBy" value="name"> Name</label>
+                <label><input type="radio" name="sortBy" value="price_up"> Price (up)</label>
+                <label><input type="radio" name="sortBy" value="price_down"> Price (down)</label>
             </div>
             <div class="filter__section">
             <div class="filter__section-title">Model</div>

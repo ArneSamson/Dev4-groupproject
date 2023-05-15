@@ -68,11 +68,12 @@ class Prompts
         if (!empty($selectedModels) && !in_array("all", $selectedModels)) {
             $models = implode("', '", $selectedModels);
             $query .= " AND model IN ('$models')";
+            var_dump($query);
         }
 
         if (!empty($selectedCategories) && !in_array("all", $selectedCategories)) {
-            $categories = implode("', '", $selectedCategories);
-            $query .= " AND category IN ('$categories')";
+            $categories = implode("','", $selectedCategories);
+            $query .= " AND categories IN ('$categories')";
         }
 
         // Sort the results
@@ -95,9 +96,11 @@ class Prompts
 
         return $prompts;
     } catch (PDOException $e) {
-        $message = "Try again later: " . $e->getMessage();
-        exit;
+        $message = "An error occurred: " . $e->getMessage();
+        error_log($message); // Log the error message to the PHP error log
+        exit($message); // Display the specific error message
     }
+    
 }
     
 
