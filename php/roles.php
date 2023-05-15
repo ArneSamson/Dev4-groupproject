@@ -38,16 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-    <a href="../index.php" class="navbar__logo">Prompt Engine</a>
-        <div class="navbar__buttons">
-            <a href="../index.php">Home</a>
-            <a href="../logout.php" class="navbar__button navbar__button--logout">Log out</a>
-        </div>
-    </nav>
+    <?php include_once("navbar.php"); ?>
 
     <div class="container">
-        <h1>User Roles</h1>
+        <h1 class="page-title">User Roles</h1>
 
         <?php if (isset($successMessage)) : ?>
             <div class="message success"><?php echo $successMessage; ?></div>
@@ -57,30 +51,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="message error"><?php echo $errorMessage; ?></div>
         <?php endif; ?>
 
-        <table>
-    <thead>
-        <tr>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Edit Role</th>
-        </tr>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th class="user-table__header">Edit roles</th>
+            
+                </tr>
             </thead>
-            <tbody>
+            <tbody class="validate-tbody">
                 <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <td><?php echo $user['id']; ?></td>
-                        <td><?php echo $user['username']; ?></td>
-                        <td><?php echo $user['role']; ?></td>
-                        <td>
+                    <tr class="user-table__row">
+                        <td class="user-table__data"><?php echo $user['id']; ?></td>
+                        <td class="user-table__data"><?php echo $user['username']; ?></td>
+                        <td class="user-table__data"><?php echo $user['role']; ?></td>
+                        <td class="user-table__data">
                             <form method="post">
                                 <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                <select name="role">
-                                    <option value="user">User</option>
-                                    <option value="moderator">Moderator</option>
-                                    <option value="admin">Admin</option>
+                                <select name="role" class="user-table__select">
+                                    <option value="user" <?php echo ($user['role'] === 'user') ? 'selected' : ''; ?>>User</option>
+                                    <option value="moderator" <?php echo ($user['role'] === 'moderator') ? 'selected' : ''; ?>>Moderator</option>
+                                    <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
                                 </select>
-                                <button type="submit">Update</button>
+                                <button type="submit" class="user-table__button">Update</button>
                             </form>
                         </td>
                     </tr>
@@ -89,4 +81,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </table>
     </div>
 </body>
+
 </html>

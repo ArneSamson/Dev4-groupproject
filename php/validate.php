@@ -48,6 +48,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Validate your prompt</title>
       <link rel="stylesheet" href="../css/style.css" />
+      <style>
+        tbody {
+            display: block;
+            max-height: 500px;
+            overflow-y: scroll;
+            margin-bottom: 70%;
+            }
+
+            .validate-tbody {
+            display: block;
+            max-height: 500px;
+            overflow-y: scroll;
+            margin-bottom: 0%
+            }
+
+
+
+            table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            }
+
+            th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            }
+
+            th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            }
+
+            tr:nth-child(even) {
+            background-color: #f9f9f9;
+            }
+      </style>
     </head>
 <?php include_once("navbar.php"); ?>
 
