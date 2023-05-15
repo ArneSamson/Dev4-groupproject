@@ -43,8 +43,8 @@ $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </nav>
 
-    <div style="margin-top: 100px;">
-        <h1>Marketplace</h1>
+    <div style="margin-top: 2500px;">
+        <h1 style="padding-top: 50px;">Marketplace</h1>
         <?php foreach ($data as $prompt) : ?>
     
             <?php
