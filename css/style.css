@@ -218,8 +218,8 @@ body {
 .prompt-cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Align cards to the start of the container */
-  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
   margin-top: 50px;
 }
 
@@ -228,11 +228,12 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 30%;
+  flex-basis: 25%;
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #fff;
+  margin-right: 5px; /* Add margin-right to create spacing between cards */
 }
 
 .prompt-card:hover {
