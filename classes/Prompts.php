@@ -159,15 +159,15 @@ class Prompts
     public function handleUpload()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->name = $_POST["title"];
-            $this->description = $_POST["description"];
-            $this->model = $_POST["model-type"];
-            $this->price = $_POST["price"];
-            $this->prompt = $_POST["prompt"];
-            $this->tags = $_POST["tags"];
+            $this->name = htmlspecialchars($_POST["title"]);
+            $this->description = htmlspecialchars($_POST["description"]);
+            $this->model = htmlspecialchars($_POST["model-type"]);
+            $this->price = htmlspecialchars($_POST["price"]);
+            $this->prompt = htmlspecialchars($_POST["prompt"]);
+            $this->tags = htmlspecialchars($_POST["tags"]);
 
             // Handle uploaded file
-            $this->fileName = $_FILES["image-upload"]["name"];
+            $this->fileName = htmlspecialchars($_FILES["image-upload"]["name"]);
             $this->fileTempName = $_FILES["image-upload"]["tmp_name"];
             $this->fileSize = $_FILES["image-upload"]["size"];
             $this->fileError = $_FILES["image-upload"]["error"];
