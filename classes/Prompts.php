@@ -265,7 +265,7 @@ class Prompts
 
         $prompts = array();
 
-        $query = "SELECT * FROM prompts WHERE onlin = 1";
+        $query = "SELECT * FROM prompts WHERE online = 1";
 
         if (!empty($searchQuery)) {
             $search = '%' . strtolower($searchQuery) . '%';
@@ -313,7 +313,7 @@ class Prompts
     
     public function validatePrompt($promptId)
     {
-        $query = $this->conn->prepare("UPDATE prompts SET onlin = 1 WHERE id = :id");
+        $query = $this->conn->prepare("UPDATE prompts SET online = 1 WHERE id = :id");
         $query->bindValue(":id", $promptId);
         $query->execute();
     }
@@ -327,7 +327,7 @@ class Prompts
 
     public function searchPrompts($searchQuery)
     {
-        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 1 AND name LIKE :search");
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE online = 1 AND name LIKE :search");
         $query->bindValue(":search", "%$searchQuery%");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -336,7 +336,7 @@ class Prompts
     public function getPromptsForValidation()
 {
     try {
-        $query = $this->conn->prepare("SELECT * FROM prompts WHERE onlin = 0");
+        $query = $this->conn->prepare("SELECT * FROM prompts WHERE online = 0");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
