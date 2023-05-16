@@ -6,7 +6,7 @@ include_once("php/bootstrap.php");
 $conn = Db::getInstance();
 
 // Set the number of prompts to show on each page
-$limit = 10;
+$limit = 5;
 
 // Get the total number of prompts
 $statement = $conn->prepare("SELECT COUNT(*) FROM prompts WHERE online = 1");
