@@ -12,7 +12,7 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+$searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 ?>
 
 
