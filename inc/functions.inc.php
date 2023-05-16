@@ -88,3 +88,16 @@ function updateUser($user_id, $username, $email, $password, $role, $conn)
         return false;
     }
 }
+
+function deleteAccount($deleteId){
+
+    $id = $deleteId;
+    $conn = Db::getInstance();
+    $statement = $conn->prepare("DELETE FROM users WHERE id = :id");
+    $statement->bindValue(":id", $deleteId);
+    $statement->execute();
+    session_destroy();
+    header("Location: ../php/login.php");
+    exit();
+
+}

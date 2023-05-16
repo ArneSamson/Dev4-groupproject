@@ -38,6 +38,18 @@ if (!empty($_POST)) {
         }
     }
 }
+
+// Handle delete account request
+if (isset($_POST['delete_account'])) {
+    $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
+
+    if ($confirmation == '1') {
+        deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
+    } else {
+        $error = true;
+        $errorMessage = "Please confirm deletion by checking the box.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,12 +91,28 @@ if (!empty($_POST)) {
                 <input type="password" name="password" id="password" placeholder="required field">
             </div>
             <div class="form__field">
-                <input type="submit" value="Update" class="form__button">
-            </div>
-            <div class="form__field">
                 <label for="profile_picture">Set new profile picture:</label>
                 <input type="file" name="profile_picture" id="profile_picture">
             </div>
+
+            <!-- update button -->
+            <div class="form__field">
+                <input type="submit" value="Update" class="form__button">
+            </div>
+
+            <div class="form__field">
+
+                <label for="confirmation">Confirm Deletion:</label>
+                <input type="checkbox" name="confirmation" id="confirmation" value="1" required>
+                <label for="confirmation">I confirm that I want to delete my account</label>
+                </div>
+                <div class="form__field">
+                <label>Delete Account:</label>
+
+                <button type="submit" name="delete_account">Delete</button>
+                
+            </div>
+
         </form>
     </div>
 </body>
