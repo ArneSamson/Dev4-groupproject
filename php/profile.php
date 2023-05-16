@@ -22,14 +22,15 @@ if (!empty($_POST)) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $role = $user['role'];
 
     // Validate the password field
     if (empty($password)) {
         $error = true;
         $errorMessage = "Password is required.";
     } else {
-        
-        if (updateUser($user_id, $username, $email, $password, $conn, $target_file)) {
+
+        if (updateUser($user_id, $username, $email, $password, $role, $conn)) {
             $success = true;
         } else {
             $error = true;
@@ -74,8 +75,8 @@ if (!empty($_POST)) {
                 <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" required>
             </div>
             <div class="form__field">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Leave blank to keep current password">
+                <label for="password">Password: *</label>
+                <input type="password" name="password" id="password" placeholder="required field">
             </div>
             <div class="form__field">
                 <input type="submit" value="Update" class="form__button">
