@@ -2,18 +2,6 @@
 
 include_once("bootstrap.php");
 
-// Check if error message is set
-$error = isset($_GET["error"]) ? $_GET["error"] : null;
-
-// Redirect to login page if user is not logged in
-if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
-    exit;
-}
-
-$user_id = $_SESSION["user_id"];
-var_dump($user_id);
-
 try {
     $conn = Db::getInstance();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
