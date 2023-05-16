@@ -42,7 +42,7 @@ unset($prompt); // Unset the reference variable after the loop
     <title>AI Prompt Home</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body style="height:auto">
     <?php include_once("php/navbar.php"); ?>
 
 
@@ -54,7 +54,7 @@ unset($prompt); // Unset the reference variable after the loop
 
 
     <div style="margin-bottom: 100px;">
-        <h1 style="padding-top: 100px;">Marketplace</h1>
+        <h1 style="padding-top: 100px;">Latest Prompts</h1>
         <?php foreach ($data as $prompt) : ?>
     
             <?php
@@ -70,11 +70,6 @@ unset($prompt); // Unset the reference variable after the loop
             <div style="padding-top: 50px;">
                 <h2> <?php echo $prompt['name'] ?> </h2>
                 <p> <?php echo $days_ago ?> </p>
-                <?php
-                // Remove the "../" from the file path
-                // $imagePath = str_replace("..\\", '', $prompt['pictures']);
-                // $imagePath = realpath($imagePath);
-                ?>
                 <img src=<?php echo $prompt['pictures']?>>
                 <p>Description: <?php echo $prompt['description'] ?> </p>
                 <p>tags: <?php echo $prompt['categories'] ?> </p>
