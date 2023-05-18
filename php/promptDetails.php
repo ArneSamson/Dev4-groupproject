@@ -11,12 +11,13 @@
     $promptData = getPromptFromURL($_GET['id']);
     $prompt = $promptData['prompt'];
     $user = $promptData['user'];
+    $isCurrentUserPrompt = $promptData['isCurrentUserPrompt'];
 
     // Check if the prompt belongs to the current user
-    $isCurrentUserPrompt = false;
-    if ($_SESSION['user_id'] === $prompt['user_id']) {
-        $isCurrentUserPrompt = true;
-    }
+    // $isCurrentUserPrompt = false;
+    // if ($_SESSION['user_id'] === $prompt['user_id']) {
+    //     $isCurrentUserPrompt = true;
+    // }
 
 ?>
 

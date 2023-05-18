@@ -1,5 +1,6 @@
 <?php
 include_once("bootstrap.php");
+include_once("../inc/functions.inc.php");
 
 // Make sure the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -8,36 +9,15 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Retrieve the prompt ID from the URL
-if (isset($_GET['id'])) {
-    $promptId = $_GET['id'];
 
-    // Get the prompt details based on the prompt ID
-    $prompt = Prompts::getPromptById($promptId);
+    // Retrieve the prompt and user details from the URL
+    $promptData = getPromptFromURL($_GET['id']);
+    $prompt = $promptData['prompt'];
+    $user = $promptData['user'];
+    $isCurrentUserPrompt = $promptData['isCurrentUserPrompt'];
 
-    $user = User::getById($prompt['user_id']);
 
 
-    // Check if the user exists
-    if ($user === null) {
-        header("Location: prompts.php");
-        exit();
-    }
-
-    //function to get the word count of a description of the prompt
-    function wordCount($string) {
-        $string = strip_tags($string);
-        $string = preg_replace('/\s+/', ' ', $string);
-        $words = explode(" ", $string);
-        return count($words);
-    }
-
-    // Check if the prompt belongs to the current user
-    $isCurrentUserPrompt = false;
-    if ($_SESSION['user_id'] === $prompt['user_id']) {
-        $isCurrentUserPrompt = true;
-    }
-
-}
 ?>
 
 <!DOCTYPE html>

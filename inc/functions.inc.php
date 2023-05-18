@@ -127,6 +127,11 @@ function getPromptFromURL($idFromURL) {
         return count($words);
     }
 
-    return array('prompt' => $prompt, 'user' => $user);
+    $isCurrentUserPrompt = false;
+    if ($_SESSION['user_id'] === $prompt['user_id']) {
+        $isCurrentUserPrompt = true;
+    }
+
+    return array('prompt' => $prompt, 'user' => $user, 'isCurrentUserPrompt' => $isCurrentUserPrompt);
 
 }
