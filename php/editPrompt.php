@@ -31,7 +31,7 @@
     <!-- if session-user_id === user_id from prompt -->
     <?php if ($isCurrentUserPrompt === true) : ?>
         <?php include_once("navbar.php"); ?>
-    
+        
     <?php else : ?>
         <?php header("Location: ../index.php"); ?>
 

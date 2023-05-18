@@ -318,12 +318,13 @@ class Prompts
         $query->execute();
     }
 
-    public function invalidatePrompt($promptId)
+    public static function invalidatePrompt($promptId)
     {
-        $query = $this->conn->prepare("DELETE FROM prompts WHERE id = :id");
+        $conn = Db::getInstance();
+        $query = $conn->prepare("DELETE FROM prompts WHERE id = :id");
         $query->bindValue(":id", $promptId);
         $query->execute();
-    }
+    }    
 
     public function searchPrompts($searchQuery)
     {
