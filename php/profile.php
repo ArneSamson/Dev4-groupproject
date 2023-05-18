@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 //function to make display prompts according to page number
-$promptData = Prompts::promptPageWithID();
+$promptData = Prompts::promptPageWithID($_GET['user_id']);
 $data = $promptData['data'];
 $page = $promptData['page'];
 $pages = $promptData['pages'];

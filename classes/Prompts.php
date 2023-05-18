@@ -394,9 +394,9 @@ class Prompts
         return array('data' => $data, 'pages' => $pages, 'page' => $page);
     }
 
-    public static function promptPageWithID()
+    public static function promptPageWithID($userId)
     {
-        $user_id = $_SESSION['user_id'];
+        $user_id = $userId;
                 
         $conn = Db::getInstance();
         

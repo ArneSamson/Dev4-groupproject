@@ -26,7 +26,8 @@
     <div class="containerPromptDetails">
         <div class="prompt-details__info">
             <h2><?php echo $prompt['name']; ?></h2>
-            <p>User: <?php echo $user['username']; ?></p>
+            <!-- link to user profile -->
+            <p>By: <a href="profile.php?user_id=<?php echo $user['id']; ?>"><?php echo $user['username']; ?></a></p>
             <p>Words: <?php echo wordCount($prompt['description']); ?></p>
             <p>Description: <br><?php echo $prompt['prompt']; ?></p>
             <p class="price">Price: <?php echo "€" . $prompt['price']; ?></p>
