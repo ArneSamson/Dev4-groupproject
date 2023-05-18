@@ -1,5 +1,7 @@
 <?php
 
+include_once("../php/bootstrap.php");
+
 function canLogIn($p_username, $p_password) {
     try {
         $conn = Db::getInstance();
@@ -99,5 +101,32 @@ function deleteAccount($deleteId){
     session_destroy();
     header("Location: ../php/login.php");
     exit();
+
+}
+
+function getPromptFromURL($idFromURL) {
+    $promptId = $idFromURL;
+
+    // Get the prompt details based on the prompt ID
+    $prompt = Prompts::getPromptById($promptId);
+
+    $user = User::getById($prompt['user_id']);
+
+
+    // Check if the user exists
+    if ($user === null) {
+        header("Location: prompts.php");
+        exit();
+    }
+
+    //function to get the word count of a description of the prompt
+    function wordCount($string) {
+        $string = strip_tags($string);
+        $string = preg_replace('/\s+/', ' ', $string);
+        $words = explode(" ", $string);
+        return count($words);
+    }
+
+    return array('prompt' => $prompt, 'user' => $user);
 
 }
