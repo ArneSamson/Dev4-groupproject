@@ -12,6 +12,11 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
+$ownAccount = false;
+if ($_GET['user_id'] == $user_id) {
+    $ownAccount = true;
+}
+
 $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 ?>
 
@@ -36,7 +41,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
         <!-- <?php echo $_GET['user_id']?>
         <?php echo $user_id?> -->
         
-        <?php if (basename($_SERVER['PHP_SELF']) === 'profile.php') : ?>
+        <?php if (basename($_SERVER['PHP_SELF']) === 'profile.php' && $ownAccount === true) : ?>
             <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'profileEdit.php' : 'php/profileEdit.php'; ?>" class="navbar__button">Edit Profile</a>
         <?php endif; ?>
       
