@@ -30,6 +30,13 @@ if (isset($_GET['id'])) {
         $words = explode(" ", $string);
         return count($words);
     }
+
+    // Check if the prompt belongs to the current user
+    $isCurrentUserPrompt = false;
+    if ($_SESSION['user_id'] === $prompt['user_id']) {
+        $isCurrentUserPrompt = true;
+    }
+
 }
 ?>
 
@@ -57,6 +64,14 @@ if (isset($_GET['id'])) {
             ?>
             <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
         </div>
+        
+        <?php if ($isCurrentUserPrompt === true) : ?>
+            <div class="prompt-details__actions">
+                <a href="editPrompt.php?id=<?php echo $prompt['id']; ?>" class="edit-prompt-button">Edit Prompt</a>
+                <a href="deletePrompt.php?id=<?php echo $prompt['id']; ?>" class="delete-prompt-button">Delete Prompt</a>
+            </div>
+        <?php endif; ?>
+        
     </div>
 </body>
 </html>
