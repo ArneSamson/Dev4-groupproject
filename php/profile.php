@@ -2,125 +2,74 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-// Make sure the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Get the current user's information
-$user_id = $_SESSION['user_id'];
-$conn = Db::getInstance();
-$statement = $conn->prepare("SELECT * FROM users WHERE id = :id");
-$statement->bindValue(":id", $user_id);
-$statement->execute();
-$user = $statement->fetch(PDO::FETCH_ASSOC);
+//function to make display prompts according to page number
+$promptData = Prompts::promptPageWithID();
+$data = $promptData['data'];
+$page = $promptData['page'];
+$pages = $promptData['pages'];
 
-// Handle form submission
-if (!empty($_POST)) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $role = $user['role'];
-
-    // Validate the password field
-    if (empty($password)) {
-        $error = true;
-        $errorMessage = "Password is required.";
-    } else {
-        // Check if a profile picture is uploaded
-        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-            $profilePicture = $_FILES['profile_picture']['tmp_name'];
-        } else {
-            $profilePicture = null;
-        }
-
-        // Handle delete account request
-        if (isset($_POST['delete_account'])) {
-            $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
-    
-            if ($confirmation == '1') {
-                deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
-            } else {
-                $error = true;
-                $errorMessage = "Please confirm deletion by checking the box.";
-            }
-        }
-        
-        if (updateUser($user_id, $username, $email, $password, $role, $conn, $profilePicture)) {
-            $success = true;
-        } else {
-            $error = true;
-            $errorMessage = "Error updating account.";
-        }
-        
-    }
-
-}
 ?>
 
+
+<!-- Output the data in an HTML table -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Account</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace</title>
     <link rel="stylesheet" href="../css/style.css">
+
 </head>
-<body>
-    
+    <body style="height: auto">
+
     <?php include_once("navbar.php"); ?>
 
-    <div class="form">
-        <h2 class="form__title">Edit Account</h2>
-
-        <?php if (isset($success)): ?>
-            <div class="form__success">
-                <p>Account updated successfully!</p>
+    <div style="margin-bottom: 100px;">
+        <h1 style="padding-top: 100px;">My prompts</h1>
+        <?php foreach ($data as $prompt) : ?>
+    
+            <?php
+            $date_diff = time() - strtotime($prompt['date']);
+            $days_ago = round($date_diff / (60 * 60 * 24));
+            if ($days_ago < 1) {
+                $days_ago = "today";
+            } else {
+                $days_ago = $days_ago . " days ago";
+            }
+            ?>
+    
+            <div style="padding-top: 50px;">
+                <h2><a href="promptDetails.php?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['name']; ?></a></h2>
+                <p> <?php echo $days_ago ?> </p>
+                <img src=<?php echo $prompt['pictures']?> style="width:300px">
+                <p>Description: <?php echo $prompt['description'] ?> </p>
+                <p>tags: <?php echo $prompt['categories'] ?> </p>
+                <p>Price: <?php echo $prompt['price'] ?> tokens</p>
             </div>
-        <?php elseif (isset($error)): ?>
-            <div class="form__error">
-                <p><?php echo $errorMessage; ?></p>
-            </div>
+            
+        <?php endforeach; ?>
+        
+        <div style="padding-top: 50px;">
+        <?php if ($page > 1) : ?>
+            <a href="?page=<?php echo $page - 1; ?>" style="padding-right: 50px;">Previous Page</a>
         <?php endif; ?>
+        
+        <?php if ($page < $pages) : ?>
+            <a href="?page=<?php echo $page + 1; ?>" style="padding-right: 50px;">Next Page</a>
+        <?php endif; ?>
+        </div>
 
-        <form method="post" enctype="multipart/form-data">
-
-            <div class="form__field">
-                <img src="<?php echo $user['imagepath']; ?>" alt="profilepicture" style="width: 100px; height: auto">
-            </div>
-            <div class="form__field">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" value="<?php echo $user['username']; ?>" required>
-            </div>
-            <div class="form__field">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" required>
-            </div>
-            <div class="form__field">
-                <label for="password">Password: *</label>
-                <input type="password" name="password" id="password" placeholder="required field">
-            </div>
-            <div class="form__field">
-                <label for="profile_picture">Set new profile picture:</label>
-                <input type="file" name="profile_picture" id="profile_picture">
-            </div>
-
-            <!-- update button -->
-            <div class="form__field">
-                <input type="submit" value="Update" class="form__button">
-            </div>
-
-            <div class="form__field">
-                <label for="confirmation">Confirm Deletion:</label>
-                <input type="checkbox" name="confirmation" id="confirmation" value="1">
-                <label for="confirmation">I confirm that I want to delete my account</label>
-            </div>
-            <div class="form__field">
-                <label>Delete Account:</label>
-                <button type="submit" name="delete_account">Delete</button>
-            </div>
-
-        </form>
+        
+        
     </div>
-</body>
+        
+
+    </body>
 </html>
