@@ -13,7 +13,7 @@ if (isset($_GET['logout'])) {
 }
 
 $ownAccount = false;
-if ($_GET['id'] == $user_id) {
+if (isset($_GET['user_id']) && $_GET['user_id'] == $user_id) {
     $ownAccount = true;
 }
 
