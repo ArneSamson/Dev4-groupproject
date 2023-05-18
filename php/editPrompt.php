@@ -1,22 +1,18 @@
 <?php
-include_once("bootstrap.php");
-include_once("../inc/functions.inc.php");
+    include_once("bootstrap.php");
+    include_once("../inc/functions.inc.php");
 
-// Make sure the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Retrieve the prompt ID from the URL
+    // Make sure the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit();
+    }
 
     // Retrieve the prompt and user details from the URL
     $promptData = getPromptFromURL($_GET['id']);
     $prompt = $promptData['prompt'];
     $user = $promptData['user'];
     $isCurrentUserPrompt = $promptData['isCurrentUserPrompt'];
-
-
 
 ?>
 
