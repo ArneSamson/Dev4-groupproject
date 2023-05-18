@@ -1,32 +1,11 @@
 <?php
 include_once("php/bootstrap.php");
 
-
-// $user_id = $_SESSION['user_id'];
-$conn = Db::getInstance();
-
-// Set the number of prompts to show on each page
-$limit = 5;
-
-// Get the total number of prompts
-$statement = $conn->prepare("SELECT COUNT(*) FROM prompts WHERE online = 1");
-$statement->execute();
-$total = $statement->fetchColumn();
-
-// Calculate the number of pages
-$pages = ceil($total / $limit);
-
-// Get the current page number
-$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-
-// Calculate the offset
-$offset = ($page - 1) * $limit;
-
-$statement = $conn->prepare("SELECT * FROM prompts WHERE online = 1 ORDER BY date DESC LIMIT :limit OFFSET :offset");
-$statement->bindParam(':limit', $limit, PDO::PARAM_INT);
-$statement->bindParam(':offset', $offset, PDO::PARAM_INT);
-$statement->execute();
-$data = $statement->fetchAll(PDO::FETCH_ASSOC);
+//function to make display prompts according to page number
+$promptData = Prompts::promptPage();
+$data = $promptData['data'];
+$page = $promptData['page'];
+$pages = $promptData['pages'];
 
 // Iterate over the prompts data and remove "..\" from the image path
 foreach ($data as &$prompt) {
