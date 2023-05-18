@@ -47,7 +47,7 @@ unset($prompt); // Unset the reference variable after the loop
             ?>
     
             <div style="padding-top: 50px;">
-                <h2> <?php echo $prompt['name'] ?> </h2>
+                <h2><a href="php/promptDetails.php?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['name']; ?></a></h2>
                 <p> <?php echo $days_ago ?> </p>
                 <img src=<?php echo $prompt['pictures']?> style="width: 300px;">
                 <p>Description: <?php echo $prompt['description'] ?> </p>
