@@ -53,19 +53,7 @@ $data = $statement->fetchAll(PDO::FETCH_ASSOC);
 </head>
     <body style="height: auto">
 
-    <nav class="navbar">
-        <div class="navbar__logo">
-            <a style="text-decoration: none;" href="../index.php">Prompt Engine</a>
-        </div>
-        <div class="navbar__buttons">
-            <div class="navbar__button navbar__button--credit">Credits: 0</div>
-            <a href="php/profile.php?user_id=<?php echo $user_id; ?>">Edit Profile</a>
-            <?php if ($user_role === "admin") : ?>
-                <a href="php/roles.php">Roles</a>
-            <?php endif; ?>
-            <a href="php/logout.php" class="navbar__button navbar__button--logout">Log out</a>
-        </div>
-    </nav>
+    <?php include_once("navbar.php"); ?>
 
     <div style="margin-bottom: 100px;">
         <h1 style="padding-top: 100px;">My prompts</h1>
@@ -82,7 +70,7 @@ $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             ?>
     
             <div style="padding-top: 50px;">
-                <h2> <?php echo $prompt['name'] ?> </h2>
+                <h2><a href="promptDetails.php?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['name']; ?></a></h2>
                 <p> <?php echo $days_ago ?> </p>
                 <img src=<?php echo $prompt['pictures']?> style="width:300px">
                 <p>Description: <?php echo $prompt['description'] ?> </p>
