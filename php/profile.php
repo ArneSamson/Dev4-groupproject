@@ -63,10 +63,13 @@ if (!empty($_POST)) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Edit Account</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+    
+    <?php include_once("navbar.php"); ?>
+
     <div class="form">
         <h2 class="form__title">Edit Account</h2>
 
