@@ -2,9 +2,11 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+if (!isset($_SESSION["user_id"])) {
+    $user_id = "";
+} else {
+    $user_id = $_SESSION["user_id"];
+    $user_role = $_SESSION["role"];
 }
 
 //function to make display prompts according to page number
@@ -12,6 +14,19 @@ $promptData = Prompts::promptPageWithID($_GET['user_id']);
 $data = $promptData['data'];
 $page = $promptData['page'];
 $pages = $promptData['pages'];
+
+$ownAccount = false;
+if ($_GET['user_id'] == $user_id) {
+    $ownAccount = true;
+}
+
+$user = User::getByID($_GET['user_id']);
+$user_name = $user['username'];
+$user_email = $user['email'];
+$user_role = $user['role'];
+$user_picture = $user['imagepath'];
+$user_credits = $user['credits'];
+
 
 ?>
 
@@ -31,8 +46,32 @@ $pages = $promptData['pages'];
 
     <?php include_once("navbar.php"); ?>
 
+    <?php if($ownAccount === true) : ?>
+        <div>
+            <h1 style="padding-top: 100px;">My account</h1>
+            <img src="<?php echo $user_picture ?>" style="width:100px">
+            <h3><?php echo $user_name ?></h3>
+            <p>Email: <?php echo $user_email ?></p>
+            <p>Role: <?php echo $user_role ?></p>
+            <p>Credits: <?php echo $user_credits ?></p>
+        </div>
+    <?php else : ?>
+        <div>
+            <h1 style="padding-top: 100px;">Account</h1>
+            <img src="<?php echo $user_picture ?>" style="width:100px">
+            <p><?php echo $user_name ?></p>
+        </div>
+    <?php endif; ?>
+
+
     <div style="margin-bottom: 100px;">
-        <h1 style="padding-top: 100px;">My prompts</h1>
+
+        <?php if($ownAccount === true) : ?>
+            <h1 style="padding-top: 100px;">My prompts</h1>
+        <?php else : ?>
+            <h1 style="padding-top: 100px;"><?php echo $user_name?>'s Prompts</h1>
+        <?php endif; ?>
+        
         <?php foreach ($data as $prompt) : ?>
     
             <?php
