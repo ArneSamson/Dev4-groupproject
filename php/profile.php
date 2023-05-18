@@ -2,7 +2,6 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-
 // Make sure the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -29,26 +28,34 @@ if (!empty($_POST)) {
         $error = true;
         $errorMessage = "Password is required.";
     } else {
+        // Check if a profile picture is uploaded
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $profilePicture = $_FILES['profile_picture']['tmp_name'];
+        } else {
+            $profilePicture = null;
+        }
 
-        if (updateUser($user_id, $username, $email, $password, $role, $conn)) {
+        // Handle delete account request
+        if (isset($_POST['delete_account'])) {
+            $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
+    
+            if ($confirmation == '1') {
+                deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
+            } else {
+                $error = true;
+                $errorMessage = "Please confirm deletion by checking the box.";
+            }
+        }
+        
+        if (updateUser($user_id, $username, $email, $password, $role, $conn, $profilePicture)) {
             $success = true;
         } else {
             $error = true;
             $errorMessage = "Error updating account.";
         }
+        
     }
-}
 
-// Handle delete account request
-if (isset($_POST['delete_account'])) {
-    $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
-
-    if ($confirmation == '1') {
-        deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
-    } else {
-        $error = true;
-        $errorMessage = "Please confirm deletion by checking the box.";
-    }
 }
 ?>
 
@@ -69,14 +76,14 @@ if (isset($_POST['delete_account'])) {
             </div>
         <?php elseif (isset($error)): ?>
             <div class="form__error">
-                <p>Error updating account.</p>
+                <p><?php echo $errorMessage; ?></p>
             </div>
         <?php endif; ?>
 
         <form method="post" enctype="multipart/form-data">
 
-             <div class="form__field">
-                <img src=<?php echo $user['imagepath']?> alt="profilepicture" style="width: 100px; height: auto">
+            <div class="form__field">
+                <img src="<?php echo $user['imagepath']; ?>" alt="profilepicture" style="width: 100px; height: auto">
             </div>
             <div class="form__field">
                 <label for="username">Username:</label>
@@ -101,16 +108,13 @@ if (isset($_POST['delete_account'])) {
             </div>
 
             <div class="form__field">
-
                 <label for="confirmation">Confirm Deletion:</label>
-                <input type="checkbox" name="confirmation" id="confirmation" value="1" required>
+                <input type="checkbox" name="confirmation" id="confirmation" value="1">
                 <label for="confirmation">I confirm that I want to delete my account</label>
-                </div>
-                <div class="form__field">
+            </div>
+            <div class="form__field">
                 <label>Delete Account:</label>
-
                 <button type="submit" name="delete_account">Delete</button>
-                
             </div>
 
         </form>
