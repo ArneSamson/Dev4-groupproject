@@ -2,14 +2,14 @@
 require_once 'bootstrap.php';
 include_once("../inc/functions.inc.php");
 
-if (!isset($_SESSION["user_id"])) {
-    $user_id = "";
-} else {
-    $user_id = $_SESSION["user_id"];
-    $user_role = $_SESSION["role"];
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
 }
 
 $user_id = $_SESSION['user_id'];
+var_dump($user_id);
+
 $conn = Db::getInstance();
 
 // Set the number of prompts to show on each page
@@ -30,9 +30,10 @@ $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 // Calculate the offset
 $offset = ($page - 1) * $limit;
 
-$statement = $conn->prepare("SELECT * FROM prompts WHERE online = 1 ORDER BY date DESC LIMIT :limit OFFSET :offset");
+$statement = $conn->prepare("SELECT * FROM prompts WHERE online = 1 AND user_id = :user_id ORDER BY date DESC LIMIT :limit OFFSET :offset");
 $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
 $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+$statement->bindValue(':user_id', $user_id);
 $statement->execute();
 $data = $statement->fetchAll(PDO::FETCH_ASSOC);
 
