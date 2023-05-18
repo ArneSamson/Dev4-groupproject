@@ -394,4 +394,38 @@ class Prompts
         return array('data' => $data, 'pages' => $pages, 'page' => $page);
     }
 
+    public static function promptPageWithID()
+    {
+        $user_id = $_SESSION['user_id'];
+                
+        $conn = Db::getInstance();
+        
+        // Set the number of prompts to show on each page
+        $limit = 5;
+        
+        // Get the total number of prompts
+        $statement = $conn->prepare("SELECT COUNT(*) FROM prompts WHERE online = 1 AND user_id = :user_id");
+        $statement->bindValue(':user_id', $user_id);
+        $statement->execute();
+        $total = $statement->fetchColumn();
+        
+        // Calculate the number of pages
+        $pages = ceil($total / $limit);
+        
+        // Get the current page number
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        
+        // Calculate the offset
+        $offset = ($page - 1) * $limit;
+        
+        $statement = $conn->prepare("SELECT * FROM prompts WHERE online = 1 AND user_id = :user_id ORDER BY date DESC LIMIT :limit OFFSET :offset");
+        $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $statement->bindValue(':user_id', $user_id);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return array('data' => $data, 'pages' => $pages, 'page' => $page);
+    }
+
 }
