@@ -221,6 +221,7 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 50px;
+  margin-right: -5px; /* Adjust margin-right to create spacing between cards */
 }
 
 .prompt-card {
@@ -228,16 +229,17 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  flex-basis: 25%;
+  flex-basis: calc(30% - 5px); /* Adjust flex-basis to fit 6 cards in a row */
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #fff;
   margin-right: 5px; /* Add margin-right to create spacing between cards */
+  width: 120px; /* Set fixed width for the prompt cards */
+  height: 200px; /* Set fixed height for the prompt cards */
 }
 
 .prompt-card:hover {
-  /* make the transform take a second */
   transform: translateY(-5px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease;
@@ -245,7 +247,8 @@ body {
 
 .prompt-card__image {
   position: relative;
-  height: 70%;
+  height: 88px;
+  width: 128px;
   overflow: hidden;
 }
 
@@ -280,7 +283,6 @@ body {
   color: #777;
   font-size: 14px;
 }
-
 .filter__clear {
   padding: 6px 12px;
   background-color: #6B78FF;
