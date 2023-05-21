@@ -231,6 +231,8 @@ class Prompts
         
     }
 
+    
+
     public static function getPromptsBySearchQuery($searchQuery) {
         try {
             $conn = Db::getInstance();
@@ -310,6 +312,22 @@ class Prompts
     
 }
 
+public static function updateLikes($promptId, $likes) {
+    try {
+        $conn = Db::getInstance();
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $query = $conn->prepare("UPDATE prompts SET likes = :likes WHERE id = :promptId");
+        $query->bindValue(":likes", $likes, PDO::PARAM_INT);
+        $query->bindValue(":promptId", $promptId, PDO::PARAM_INT);
+        $query->execute();
+
+        return true;
+    } catch (PDOException $e) {
+        $message = "Try again later: " . $e->getMessage();
+        exit;
+    }
+}
     
     public function validatePrompt($promptId)
     {

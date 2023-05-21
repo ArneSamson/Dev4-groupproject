@@ -4,7 +4,6 @@ include_once("bootstrap.php");
 $selectedModels = isset($_GET['model']) ? $_GET['model'] : array();
 $selectedCategories = isset($_GET['category']) ? $_GET['category'] : '';
 
-var_dump($selectedCategories);
 $sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : '';
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -25,7 +24,27 @@ function clearFilters() {
 if (isset($_GET['clear'])) {
     clearFilters();
 }
-
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $promptId = isset($_POST['promptId']) ? $_POST['promptId'] : null;
+    $likes = isset($_POST['likes']) ? $_POST['likes'] : 0;
+  
+    if ($promptId !== null) {
+        // Update the likes in the database
+        $update = Prompts::updateLikes($promptId, $likes);
+      
+        if ($update) {
+            // Send the response back to the client
+            $response = array("success" => true, "likes" => $likes);
+            echo json_encode($response);
+            exit;
+        } else {
+            // Failed to update the likes in the database
+            $response = array("success" => false);
+            echo json_encode($response);
+            exit;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +107,12 @@ if (isset($_GET['clear'])) {
                                 <div class="prompt-card__name"><?php echo $prompt['name']; ?></div>
                                 <div class="prompt-card__price"><?php echo "€ " . $prompt['price']; ?></div>
                             </div>
+                        <script src="../ajax/like.js"></script>
                         </a>
+                        <button class="likeButton" data-prompt-id="<?php echo $prompt['id']; ?>" data-likes="<?php echo $prompt['likes']; ?>" onclick="updatePromptLikes(this)">
+                            Like
+                        </button>
+                        <p class="likeCount"><?php echo $prompt['likes']; ?></p>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
