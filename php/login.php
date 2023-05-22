@@ -26,23 +26,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="form">
+        <h2 class="form__title">Login</h2>
 
-    <?php if (isset($errorMessage)): ?>
-        <p><?php echo $errorMessage; ?></p>
-    <?php endif; ?>
+        <?php if (isset($errorMessage)): ?>
+            <div class="form__error">
+                <p><?php echo $errorMessage; ?></p>
+            </div>
+        <?php endif; ?>
 
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <label for="username">username:</label>
-        <input type="username" name="username" id="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="form__field">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+
+            <div class="form__field">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <div class="form__field">
+                <input type="submit" value="Login" class="form__button">
+            </div>
+        </form>
+    </div>
 </body>
 </html>

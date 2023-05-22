@@ -43,29 +43,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </head>
     
     <body>
-      <!-- <?php include_once("../inc/functions.inc.php"); ?>  -->
-      <!-- This is the nav bar -->
-      <?php include_once("navbar.php"); ?>
-      
-    
-      <div class="form-container">
-            <form class="uploadform" enctype="multipart/form-data" method="POST">
-              <h2>Upload a new prompt</h2>
-              <?php if (isset($error)) : ?> <!-- if error message is set -->
-                <p class="errormessage"><?php echo $error ?></p> <!-- display error message -->
-              <?php endif; ?>
-        <fieldset>
-          <legend>Basic Information</legend>
+  <!-- <?php include_once("../inc/functions.inc.php"); ?>  -->
+  <!-- This is the nav bar -->
+  <?php include_once("navbar.php"); ?>
 
+  <div class="form-container">
+    <form class="uploadform" enctype="multipart/form-data" method="POST">
+      <h2>Upload a new prompt</h2>
+      <?php if (isset($error)) : ?> <!-- if error message is set -->
+        <p class="errormessage"><?php echo $error ?></p> <!-- display error message -->
+      <?php endif; ?>
+      <fieldset>
+        <legend>Basic Information</legend>
+
+        <div class="form-group">
           <label for="title">Title:</label>
           <input type="text" id="title" name="title" required>
+        </div>
 
+        <div class="form-group">
           <label for="description">Description:</label>
           <textarea style="resize: none;" id="description" name="description" required></textarea>
+        </div>
 
+        <div class="form-group">
           <label for="prompt">Prompt:</label>
           <textarea style="resize: none;" id="prompt" name="prompt" required></textarea>
+        </div>
 
+        <div class="form-group">
           <label for="price">Price:</label>
           <select id="price" name="price">
             <option value="1">1</option>
@@ -74,7 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
+        </div>
 
+        <div class="form-group">
           <label for="model-type">Model:</label>
           <select id="model-type" name="model-type">
             <option value="dalle">DALL-E</option>
@@ -82,49 +90,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="lexica">Lexica</option>
             <option value="stablediffusion">Stable Diffusion</option>
           </select>
-        </fieldset>
+        </div>
+      </fieldset>
 
-        <fieldset>
-          <legend>Image and Tags</legend>
-
+      <fieldset>
+        <legend>Image and Tags</legend>
+        <div class="form-group">
           <label for="image-upload">Image:</label>
           <input type="file" id="image-upload" name="image-upload" accept="image/*" required>
+        </div>
 
+        <div class="form-group">
           <label for="tags">Tags:</label>
           <input type="text" id="tags" name="tags" required>
-        </fieldset>
+        </div>
+      </fieldset>
 
-        <fieldset>
-          <legend>Category</legend>
+      <fieldset>
+        <legend>Category</legend>
 
+        <div class="form-group">
           <input type="checkbox" id="animals" name="categories[]" value="Animals">
-          <label for="animals" class="checkbox-label">Animals</label><br>
+          <label for="animals" class="checkbox-label">Animals</label>
+        </div>
 
+        <div class="form-group">
           <input type="checkbox" id="3D" name="categories[]" value="3D">
-          <label for="3D" class="checkbox-label">3D</label><br>
+          <label for="3D" class="checkbox-label">3D</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="space" name="categories[]" value="Space">
+          <label for="space" class="checkbox-label">Space</label>
+        </div>
 
-          <!-- Add more checkboxes here -->
+        <div class="form-group">
+          <input type="checkbox" id="game" name="categories[]" value="Game">
+          <label for="game" class="checkbox-label">Game</label>
+        </div>
 
-              <!-- Example additional checkboxes -->
-              <input type="checkbox" id="space" name="categories[]" value="Space">
-              <label for="space" class="checkbox-label">Space</label><br>
+        <div class="form-group">
+          <input type="checkbox" id="car" name="categories[]" value="Car">
+          <label for="car" class="checkbox-label">Car</label>
+        </div>
 
-              <input type="checkbox" id="game" name="categories[]" value="Game">
-              <label for="game" class="checkbox-label">Game</label><br>
+        <div class="form-group">
+          <input type="checkbox" id="nature" name="categories[]" value="Nature">
+          <label for="nature" class="checkbox-label">Nature</label>
+        </div>
 
-              <input type="checkbox" id="car" name="categories[]" value="Car">
-              <label for="car" class="checkbox-label">Car</label><br>
+        <div class="form-group">
+          <input type="checkbox" id="portrait" name="categories[]" value="Portrait">
+          <label for="portrait" class="checkbox-label">Portrait</label>
+        </div>
+      </fieldset>
 
-              <input type="checkbox" id="nature" name="categories[]" value="Nature">
-              <label for="nature" class="checkbox-label">Nature</label><br>
-
-              <input type="checkbox" id="portrait" name="categories[]" value="Portrait">
-              <label for="portrait" class="checkbox-label">Portrait</label><br>
-            </fieldset>
-
-            <input class="submitbtn" type="submit" value="Submit">
-          </form>
-    </div>
-    </body>
+      <div class="form-group">
+        <input class="submitbtn" type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+</body>
     
     </html>
