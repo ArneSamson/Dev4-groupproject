@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <button class="likeButton" data-prompt-id="<?php echo $prompt['id']; ?>" data-likes="<?php echo $prompt['likes']; ?>" onclick="updatePromptLikes(this)">
                             Like
                         </button>
-                        <p class="likeCount"><?php echo $prompt['likes']; ?></p>
+                        <p class="likeCount"><?php echo $prompt['likes']." likes"; ?></p>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
