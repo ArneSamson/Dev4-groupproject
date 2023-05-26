@@ -354,4 +354,14 @@ class User {
             return false;
         }
     }
+
+    public static function isUsernameTaken($username) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT id FROM users WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return !empty($result); // Return true if a user with the given username is found
+    }
+    
 }

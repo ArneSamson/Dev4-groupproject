@@ -18,6 +18,8 @@
     $user = new User();
     $data = $user->getById($user_id);
 
+    $isTaken = User::isUsernameTaken($_POST['username']);
+
     // Handle form submission
     if (!empty($_POST)) {
         $password = $_POST['password'];
@@ -28,36 +30,38 @@
             $errorMessage = "Password is required.";
         } else {
 
-            // if(User::checktest($username) === true){
+            if($isTaken == true && $_POST['username'] != $data['username']){
+                $error = true;
+                $errorMessage = "Username is already taken.";
+            }else{
 
-            // }            
 
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-                $user->checkUploadedFile($_FILES['profile_picture']);
-            } else {
-                $filePath = user::getProfilePictureUrlById($user_id);
-                $user->setProfilePicture($filePath);
-            }
+                if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                    $user->checkUploadedFile($_FILES['profile_picture']);
+                } else {
+                    $filePath = user::getProfilePictureUrlById($user_id);
+                    $user->setProfilePicture($filePath);
+                }
 
-            // Handle delete account request
-            if (isset($_POST['delete_account'])) {
-                $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
-        
-                if ($confirmation == '1') {
-                    deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
+                // Handle delete account request
+                if (isset($_POST['delete_account'])) {
+                    $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
+            
+                    if ($confirmation == '1') {
+                        deleteAccount($_SESSION['user_id']); // Call the deleteAccount function to delete the user account
+                    } else {
+                        $error = true;
+                        $errorMessage = "Please confirm deletion by checking the box.";
+                    }
+                }
+                
+                if ($user->updateUser($password)) {
+                    $success = true;
                 } else {
                     $error = true;
-                    $errorMessage = "Please confirm deletion by checking the box.";
+                    $errorMessage = "Error updating account.";
                 }
             }
-            
-            if ($user->updateUser($password)) {
-                $success = true;
-            } else {
-                $error = true;
-                $errorMessage = "Error updating account.";
-            }
-            
         }
 
     }
