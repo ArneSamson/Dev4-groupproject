@@ -18,11 +18,11 @@
     $user = new User();
     $data = $user->getById($user_id);
 
-    $isTaken = User::isUsernameTaken($_POST['username']);
-
+    
     // Handle form submission
     if (!empty($_POST)) {
         $password = $_POST['password'];
+        $isTaken = User::isUsernameTaken($_POST['username']);
 
         // Validate the password field
         if (empty($password)) {
