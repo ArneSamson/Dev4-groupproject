@@ -297,18 +297,17 @@ class User {
         return isset($_SESSION['userId']);
     }
 
-    public function updateUser($password){
-        
-        $fileName = htmlspecialchars($_FILES["profile_picture"]["name"]);
-        $fileTempName = $_FILES["profile_picture"]["tmp_name"];
-        $fileSize = $_FILES["profile_picture"]["size"];
-        $fileError = $_FILES["profile_picture"]["error"];
+    public function checkUploadedFile($file) {
+        $fileName = htmlspecialchars($file["name"]);
+        $fileTempName = $file["tmp_name"];
+        $fileSize = $file["size"];
+        $fileError = $file["error"];
     
         if ($fileError !== UPLOAD_ERR_OK) {
             $message = "Upload failed with error code $fileError.";
             exit;
         }
-        
+    
         // Check file size
         if ($fileSize > 1000000) {
             $message = "File is too big"; // set error message
@@ -326,12 +325,17 @@ class User {
         // Save uploaded file to disk
         $uploadsDir = "..\\media\\";
         $fileName = basename($fileTempName);
-        $filePath = $uploadsDir . $fileName;
+        $this->profilepictureUrl = $uploadsDir . $fileName;
     
-        if (!move_uploaded_file($fileTempName, $filePath)) {
+        if (!move_uploaded_file($fileTempName, $this->profilepictureUrl)) {
             $message = "Failed to move uploaded file.";
             exit;
         }
+    
+        return $this->profilepictureUrl;
+    }
+
+    public function updateUser($password){
     
         try {
             $conn = Db::getInstance();
@@ -341,7 +345,7 @@ class User {
             $statement->bindValue(":email", $_POST['email']);
             $statement->bindValue(":password", $hash);
             $statement->bindValue(":role", $_SESSION['role']);
-            $statement->bindValue(":imagepath", $filePath);
+            $statement->bindValue(":imagepath", $this->profilepictureUrl);
             $statement->bindValue(":id", $_SESSION['user_id']);
             $statement->execute();
             return true;

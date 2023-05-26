@@ -32,7 +32,13 @@
 
             // }            
 
-            
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                $user->checkUploadedFile($_FILES['profile_picture']);
+            } else {
+                $filePath = user::getProfilePictureUrlById($user_id);
+                $user->setProfilePicture($filePath);
+            }
+
             // Handle delete account request
             if (isset($_POST['delete_account'])) {
                 $confirmation = $_POST['confirmation']; // Get the value of the confirmation checkbox
