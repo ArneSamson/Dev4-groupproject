@@ -58,7 +58,7 @@
         <?php if ($user_role === "admin" || $user_role === "moderator") : ?>
             <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'validate.php' : 'php/validate.php'; ?>" class="navbar__button">Validate</a>
         <?php endif; ?>
-        <a href="php/logout.php" class="navbar__button navbar__button--logout">Log out</a>
+        <a href="<?php echo __DIR__ . '/logout.php;' ?>" class="navbar__button navbar__button--logout">Log out</a>
     </div>
 </nav>
 
