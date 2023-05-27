@@ -20,7 +20,6 @@ unset($prompt); // Unset the reference variable after the loop
 <head>
     <title>AI Prompt Home</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="media/favicon/icon.png" type="image/x-icon"/>
 </head>
 <body style="height:auto">
     <?php include_once("php/navbar.php"); ?>
@@ -31,10 +30,11 @@ unset($prompt); // Unset the reference variable after the loop
         <button onclick="window.location.href='php/upload.php'" class="btn btn--upload">Upload Prompt</button>
         <button onclick="window.location.href='php/prompts.php'" class="btn btn--upload">View Prompts</button>
     </div>
+    <h1 style="padding-top: 100px;">Latest Prompts</h1>
+
+    <div style="margin-bottom: 100px; display:flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: center;">
 
 
-    <div style="margin-bottom: 100px;">
-        <h1 style="padding-top: 100px;">Latest Prompts</h1>
         <?php foreach ($data as $prompt) : ?>
     
             <?php
@@ -59,13 +59,13 @@ unset($prompt); // Unset the reference variable after the loop
         <?php endforeach; ?>
         
         <div style="padding-top: 50px;">
-        <?php if ($page > 1) : ?>
-            <a href="?page=<?php echo $page - 1; ?>" style="padding-right: 50px;">Previous Page</a>
-        <?php endif; ?>
-        
-        <?php if ($page < $pages) : ?>
-            <a href="?page=<?php echo $page + 1; ?>" style="padding-right: 50px;">Next Page</a>
-        <?php endif; ?>
+            <?php if ($page > 1) : ?>
+                <a href="?page=<?php echo $page - 1; ?>" class="btn--page">Previous Page</a>
+            <?php endif; ?>
+            
+            <?php if ($page < $pages) : ?>
+                <a href="?page=<?php echo $page + 1; ?>" class="btn--page">Next Page</a>
+            <?php endif; ?>
         </div>
 
         

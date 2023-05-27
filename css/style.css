@@ -277,6 +277,29 @@ legend {
   margin-right: -5px; /* Adjust margin-right to create spacing between cards */
 }
 
+.btn--page {
+  margin-right: 50px;
+  background-color: #6B78FF;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
+}
+
+.btn--page:hover {
+  background-color: #fff;
+  color: #6B78FF;
+  border: 2px solid #6B78FF;
+}
+
+.btn--page:active {
+  background-color: #fff;
+  color: #6B78FF;
+  border: 2px solid #6B78FF;
+}
+
 .prompt-card {
   display: flex;
   flex-direction: column;
