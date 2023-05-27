@@ -8,7 +8,7 @@ if (!isset($_SESSION["user_id"])) {
 
 if (isset($_GET['logout'])) {
     session_destroy();
-    header("Location: php/login.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -18,6 +18,10 @@ if (isset($_GET['user_id']) && $_GET['user_id'] == $user_id) {
 }
 
 $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
+
+$user_id = $_SESSION["user_id"];
+$userData = User::getById($user_id)
+
 ?>
 
 
@@ -35,7 +39,7 @@ $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
         </div>
     </form>
     <div class="navbar__buttons">
-        <div class="navbar__button--credit">Credits: 0</div>
+        <div class="navbar__button--credit">Credits: <?php echo $userData["credits"] ?></div>
         <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? '../php/profile.php?user_id='.$user_id : 'php/profile.php?user_id='.$user_id; ?>" class="navbar__button">Profile</a>
       
         <!-- <?php echo $_GET['user_id']?>
