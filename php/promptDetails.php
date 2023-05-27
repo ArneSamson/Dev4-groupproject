@@ -91,9 +91,9 @@
                 $commenterName = $commenter['username'];
                 ?>
                 <div class="comment" style="background-color:azure; padding:10px; margin-top: 20px">
+                    <p style="font-weight: bolder;"><?php echo $commenterName?></p>
                     <p><?php echo $comment['content']; ?></p>
-                    <p>By: <?php echo $commenterName?></p>
-                    <p>Posted at: <?php echo $comment['timestamp']; ?></p>
+                    <p style="font-size:x-small;">Posted at: <?php echo $comment['timestamp']; ?></p>
                 </div>
             <?php endforeach; ?>
         </div>
