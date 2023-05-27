@@ -28,8 +28,8 @@
             <h2><?php echo $prompt['name']; ?></h2>
             <!-- link to user profile -->
             <p>By: <a href="profile.php?user_id=<?php echo $user['id']; ?>"><?php echo $user['username']; ?></a></p>
-            <p>Words: <?php echo wordCount($prompt['description']); ?></p>
-            <p>Description: <br><?php echo $prompt['prompt']; ?></p>
+            <p>Words: <?php echo wordCount($prompt['prompt']); ?></p>
+            <p>Description: <br><?php echo $prompt['description']; ?></p>
             <p class="price">Price: <?php echo "€" . $prompt['price']; ?></p>
             <a href="#" class="get-prompt-button">Get Prompt</a>
         </div>
