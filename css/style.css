@@ -307,11 +307,12 @@ legend {
   align-items: flex-start;
   flex-basis: calc(30% - 5px); /* Adjust flex-basis to fit 6 cards in a row */
   margin-bottom: 20px;
+  margin-top: 20px;
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #fff;
   margin-right: 5px; /* Add margin-right to create spacing between cards */
-  width: 120px; /* Set fixed width for the prompt cards */
+  width: 60px; /* Set fixed width for the prompt cards */
   height: 200px; /* Set fixed height for the prompt cards */
 }
 
@@ -383,23 +384,23 @@ legend {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-right: 50%; /* Add margin-left to move the section to the left */
+  padding-top: 8%;
 }
 
 .filter {
-  width: 35%;
+  width: 30%; /* Adjusted width */
 }
 
 .prompt-cards {
-  width: 85%;
+  flex: 1; /* Use flex-grow to allow the prompt cards section to grow dynamically */
   margin-top: 30px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Wrap cards to the next row */
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 
 /* Additional Styles for Filter Section */
 .filter__section {
@@ -430,7 +431,6 @@ legend {
   font-size: 50px;
   margin-top: 30px;
 }
-
 
 .validate-tbody {
   display: block; 
