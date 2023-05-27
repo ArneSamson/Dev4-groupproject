@@ -29,6 +29,8 @@
         $comment->setIsDeleted(0);
         $comment->saveComment();
 
+        $comments = Comment::getCommentsfromPrompt($prompt['id']);
+
     }
 
     
