@@ -22,7 +22,7 @@
     // Handle form submission
     if (!empty($_POST)) {
         $password = $_POST['password'];
-        $isTaken = User::isUsernameTaken($_POST['username']);
+        $isTaken = $user->isUsernameTaken($_POST['username']);
 
         // Validate the password field
         if (empty($password)) {
