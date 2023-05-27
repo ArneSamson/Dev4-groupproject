@@ -1,5 +1,4 @@
     <?php
-
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
@@ -7,11 +6,11 @@
     include_once('bootstrap.php');
     include_once("../inc/functions.inc.php");
 
-    // Make sure the user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        exit();
-    }
+    // // Make sure the user is logged in
+    // if (!isset($_SESSION['user_id'])) {
+    //     header("Location: login.php");
+    //     exit();
+    // }
 
     // Get the current user's information
     $user_id = $_SESSION['user_id'];
@@ -78,7 +77,11 @@
     </head>
     <body>
         
-        <?php include_once("navbar.php"); ?>
+        <?php if(!isset($_SESSION['user_id'])): ?>
+            <?php header("Location: login.php"); ?>
+            
+        <?php else: ?>
+            <?php include_once("navbar.php"); ?>
 
         <div class="form">
             <h2 class="form__title">Edit Account</h2>
@@ -132,5 +135,7 @@
 
             </form>
         </div>
+
+        <?php endif; ?>
     </body>
     </html>
