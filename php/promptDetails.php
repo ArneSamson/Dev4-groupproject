@@ -13,6 +13,29 @@
     $user = $promptData['user'];
     $isCurrentUserPrompt = $promptData['isCurrentUserPrompt'];
 
+
+
+    $comments = Comment::getCommentsfromPrompt($prompt['id']);
+
+    if(isset($_POST['comment']) && !empty($_POST['comment'])){
+
+        $commentContent = htmlspecialchars($_POST['comment']);
+
+        $comment = new Comment();
+        $comment->setUserId($_SESSION['user_id']);
+        $comment->setPromptId($_POST['prompt_id']);
+        $comment->setContent($commentContent);
+        $comment->setTimeStamp(date("Y-m-d H:i:s"));
+        $comment->setIsDeleted(0);
+        $comment->saveComment();
+
+        // Redirect to prevent form resubmission
+        header("Location: promptDetails.php?id=" . $_GET['id']);
+        exit();
+    }
+
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -41,13 +64,48 @@
             <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
         </div>
         
-        <?php if ($isCurrentUserPrompt === true) : ?>
-            <div class="prompt-details__actions">
-                <a href="editPrompt.php?id=<?php echo $prompt['id']; ?>" class="edit-prompt-button">Edit Prompt</a>
-                <a href="deletePrompt.php?id=<?php echo $prompt['id']; ?>" class="delete-prompt-button">Delete Prompt</a>
+        <div>
+            <?php if ($isCurrentUserPrompt === true) : ?>
+                <div class="prompt-details__actions">
+                    <a href="editPrompt.php?id=<?php echo $prompt['id']; ?>" class="edit-prompt-button">Edit Prompt</a>
+                    <a href="deletePrompt.php?id=<?php echo $prompt['id']; ?>" class="delete-prompt-button">Delete Prompt</a>
+                </div>
+            <?php endif; ?>
+            
+    
+            <div class="prompt-details__comment-form">
+                <h3>Add a Comment</h3>
+                <form method="POST">
+                    <input type="hidden" name="prompt_id" value="<?php echo $prompt['id']; ?>">
+                    <textarea name="comment" placeholder="Enter your comment" style="resize: none;"></textarea>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
-        <?php endif; ?>
+        </div>
+
+        <div class="prompt-details__comments" style="margin-left: 20px; margin-right: 20px">
+            <h3>Comments</h3>
+            <?php foreach ($comments as $comment) : ?>
+
+                <?php
+                $commenter = User::getById($comment['user_id']);
+                $commenterName = $commenter['username'];
+                ?>
+                <div class="comment" style="background-color:azure; padding:10px; margin-top: 20px">
+                    <p><?php echo $comment['content']; ?></p>
+                    <p>By: <?php echo $commenterName?></p>
+                    <p>Posted at: <?php echo $comment['timestamp']; ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
         
+        <script>
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+            }
+        </script>
+
+
     </div>
 </body>
 </html>
