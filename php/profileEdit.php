@@ -4,7 +4,7 @@
     ini_set('display_errors', 1);
 
 
-    require_once 'bootstrap.php';
+    include_once('bootstrap.php');
     include_once("../inc/functions.inc.php");
 
     // Make sure the user is logged in
