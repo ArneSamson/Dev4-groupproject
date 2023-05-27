@@ -142,6 +142,12 @@ class User {
     
     
     public function register() {
+
+        if($this->isUsernameTaken($this->username)){
+            throw new Exception("Username already taken");
+        }
+
+
         $verificationCode = bin2hex(random_bytes(32));
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
     
@@ -355,7 +361,7 @@ class User {
         }
     }
 
-    public static function isUsernameTaken($username) {
+    public function isUsernameTaken($username) {
         $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT id FROM users WHERE username = :username");
         $statement->bindValue(":username", $username);
