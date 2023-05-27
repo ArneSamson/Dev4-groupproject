@@ -278,26 +278,26 @@ legend {
 }
 
 .btn--page {
-  margin-right: 50px;
-  background-color: #6B78FF;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1em;
+    margin-right: 50px;
+    background-color: #6B78FF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
 }
 
 .btn--page:hover {
-  background-color: #fff;
-  color: #6B78FF;
-  border: 2px solid #6B78FF;
+    background-color: #fff;
+    color: #6B78FF;
+    border: 2px solid #6B78FF;
 }
 
 .btn--page:active {
-  background-color: #fff;
-  color: #6B78FF;
-  border: 2px solid #6B78FF;
+    background-color: #fff;
+    color: #6B78FF;
+    border: 2px solid #6B78FF;
 }
 
 .prompt-card {
@@ -307,12 +307,11 @@ legend {
   align-items: flex-start;
   flex-basis: calc(30% - 5px); /* Adjust flex-basis to fit 6 cards in a row */
   margin-bottom: 20px;
-  margin-top: 20px;
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #fff;
   margin-right: 5px; /* Add margin-right to create spacing between cards */
-  width: 60px; /* Set fixed width for the prompt cards */
+  width: 120px; /* Set fixed width for the prompt cards */
   height: 200px; /* Set fixed height for the prompt cards */
 }
 
@@ -384,23 +383,23 @@ legend {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-right: 50%; /* Add margin-left to move the section to the left */
-  padding-top: 8%;
 }
 
 .filter {
-  width: 30%; /* Adjusted width */
+  width: 35%;
 }
 
 .prompt-cards {
-  flex: 1; /* Use flex-grow to allow the prompt cards section to grow dynamically */
+  width: 85%;
   margin-top: 30px;
   display: flex;
-  flex-wrap: wrap; /* Wrap cards to the next row */
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
+
 
 /* Additional Styles for Filter Section */
 .filter__section {
@@ -431,6 +430,7 @@ legend {
   font-size: 50px;
   margin-top: 30px;
 }
+
 
 .validate-tbody {
   display: block; 
