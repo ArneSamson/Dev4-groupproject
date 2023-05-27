@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 include_once("bootstrap.php");
 
@@ -7,10 +9,9 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if the database connection is successful
-    if ($conn) {
-        echo "Database connection successful!";
-    } else {
-        echo "Failed to connect to the database.";
+    if (!$conn) {
+        echo "Failed to connect to database!";
+        exit;
     }
 } catch (PDOException $e) {
     $message = "Try again later: " . $e->getMessage();
@@ -20,7 +21,6 @@ try {
 $prompts = new Prompts($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "Form submitted!";
     // var_dump($_POST);
     // var_dump($_FILES);
 
@@ -153,4 +153,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </body>
     
-    </html>
+</html>

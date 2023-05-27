@@ -179,7 +179,7 @@ class Prompts
             
 
             // Check file size
-            if ($this->fileSize > 1000000) {
+            if ($this->fileSize > 5000000) {
                 $message = "File is too big"; // set error message
                 header("Location: ../php/upload.php?error=" . urlencode($message)); // redirect to edit account page
                 exit;
@@ -193,14 +193,18 @@ class Prompts
             }
 
             // Save uploaded file to disk
-            $uploadsDir = "..\\media\\";
+            $uploadsDir = "../media/";
             $fileName = basename($this->fileTempName);
-            $filePath = $uploadsDir . $fileName;
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $fileNameWithoutExtension = pathinfo($fileName, PATHINFO_FILENAME);
+            $fileNameWithExtension = $fileNameWithoutExtension . '.tmp';
+            $filePath = $uploadsDir . $fileNameWithExtension;
 
             if (!move_uploaded_file($this->fileTempName, $filePath)) {
                 $message = "Failed to move uploaded file.";
                 exit;
             }
+
 
             $categories = array("Animals", "3D", "Space", "Game", "Car", "Nature", "Portrait", "Anime", "Interior", "Realistic", "Geek", "Building");
             $this->selectedCategories = array();
