@@ -29,9 +29,6 @@
         $comment->setIsDeleted(0);
         $comment->saveComment();
 
-        // Redirect to prevent form resubmission
-        header("Location: promptDetails.php?id=" . $_GET['id']);
-        exit();
     }
 
     
