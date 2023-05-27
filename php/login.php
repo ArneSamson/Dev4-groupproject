@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
+
 </head>
 <body>
     <div class="form">

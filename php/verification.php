@@ -21,6 +21,8 @@ if (!empty($_GET['verification_code'])) {
 <head>
     <meta charset="UTF-8">
     <title>Email Verification</title>
+    <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
+
 </head>
 <body>
     <h1>Email Verification</h1>

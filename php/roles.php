@@ -36,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <title>User Roles</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
+
 </head>
 <body>
     <?php include_once("navbar.php"); ?>

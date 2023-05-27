@@ -38,6 +38,8 @@ if ($isCurrentUserPrompt === true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Prompt</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
+
 </head>
 <body>
     <?php include_once("navbar.php"); ?>

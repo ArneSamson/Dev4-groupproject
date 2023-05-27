@@ -40,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Upload your prompt</title>
       <link rel="stylesheet" href="../css/style.css" />
+      <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
+
     </head>
     
     <body>

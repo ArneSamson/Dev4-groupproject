@@ -20,6 +20,7 @@ unset($prompt); // Unset the reference variable after the loop
 <head>
     <title>AI Prompt Home</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="media/favicon/icon.png" type="image/x-icon"/>
 </head>
 <body style="height:auto">
     <?php include_once("php/navbar.php"); ?>
