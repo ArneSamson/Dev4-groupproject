@@ -47,8 +47,15 @@
         <div class="navbar__button--credit">Credits: <?php echo $userData["credits"] ?></div>
         <?php endif; ?>
 
+        <?php if(!empty($user_id)) : ?>
+
         <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? '../php/profile.php?user_id='.$user_id : 'php/profile.php?user_id='.$user_id; ?>" class="navbar__button">Profile</a>
-      
+            
+        <?php else : ?>
+        
+        <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? '../php/login.php' : 'php/login.php'; ?>" class="navbar__button">Log in</a>
+        
+        <?php endif; ?>
         
         <?php if (basename($_SERVER['PHP_SELF']) === 'profile.php' && $ownAccount === true) : ?>
             <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'profileEdit.php' : 'php/profileEdit.php'; ?>" class="navbar__button">Edit Profile</a>
@@ -70,11 +77,6 @@
 
         <a href="<?php echo $logoutPath; ?>" class="navbar__button navbar__button--logout">Log out</a>
 
-        <?php
-            // if ($noLogIn === true) {
-            //     header("Location: $logoutPath");
-            // }
-        ?>
 
 
 
