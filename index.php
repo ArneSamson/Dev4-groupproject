@@ -1,18 +1,18 @@
 <?php
-include_once("php/bootstrap.php");
+    include_once("php/bootstrap.php");
 
-//function to make display prompts according to page number
-$promptData = Prompts::promptPage();
-$data = $promptData['data'];
-$page = $promptData['page'];
-$pages = $promptData['pages'];
+    //function to make display prompts according to page number
+    $promptData = Prompts::promptPage();
+    $data = $promptData['data'];
+    $page = $promptData['page'];
+    $pages = $promptData['pages'];
 
-// Iterate over the prompts data and remove "..\" from the image path
-foreach ($data as &$prompt) {
-    $prompt['pictures'] = str_replace(['..\\', '..//', '../'], '', $prompt['pictures']);
-    $prompt['pictures'] = str_replace(['media/', 'media\\'], '', $prompt['pictures']);
-}
-unset($prompt); // Unset the reference variable after the loop
+    // Iterate over the prompts data and remove "..\" from the image path
+    foreach ($data as &$prompt) {
+        $prompt['pictures'] = str_replace(['..\\', '..//', '../'], '', $prompt['pictures']);
+        $prompt['pictures'] = str_replace(['media/', 'media\\'], '', $prompt['pictures']);
+    }
+    unset($prompt); // Unset the reference variable after the loop
 
 ?>  
 
