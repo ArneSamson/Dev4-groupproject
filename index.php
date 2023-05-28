@@ -9,11 +9,12 @@ $pages = $promptData['pages'];
 
 // Iterate over the prompts data and remove "..\" from the image path
 foreach ($data as &$prompt) {
-    $prompt['pictures'] = str_replace('..\\', '', $prompt['pictures']);
+    $prompt['pictures'] = str_replace(['..\\', '..//', '../'], '', $prompt['pictures']);
+    $prompt['pictures'] = str_replace(['media/', 'media\\'], '', $prompt['pictures']);
 }
 unset($prompt); // Unset the reference variable after the loop
 
-?>
+?>  
 
 <!DOCTYPE html>
 <html>
@@ -50,7 +51,10 @@ unset($prompt); // Unset the reference variable after the loop
             <div style="padding-top: 50px;">
                 <h2><a href="php/promptDetails.php?id=<?php echo $prompt['id']; ?>"><?php echo $prompt['name']; ?></a></h2>
                 <p> <?php echo $days_ago ?> </p>
-                <img src=<?php echo $prompt['pictures']?> style="width: 300px;">
+                <?php
+                $imagePath = "media/" . $prompt['pictures'];
+                ?>
+                <img src="<?php echo $imagePath?>" style="width: 300px;">
                 <p>Description: <?php echo $prompt['description'] ?> </p>
                 <p>tags: <?php echo $prompt['categories'] ?> </p>
                 <p>Price: <?php echo $prompt['price'] ?> tokens</p>
