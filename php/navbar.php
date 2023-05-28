@@ -2,18 +2,21 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
+
     if (!isset($_SESSION["user_id"])) {
-        $user_id = "";
+        session_destroy(); // Destroy the session
+        header("Location: php/login.php"); // Redirect to login page
+        exit; // Terminate the current script
     } else {
         $user_id = $_SESSION["user_id"];
         $user_role = $_SESSION["role"];
+        $userData = User::getById($user_id);
     }
-
-    // if (isset($_GET['logout'])) {
-    //     session_destroy();
-    //     header("Location: php/login.php");
-    //     exit;
-    // }
+    if (isset($_GET['logout'])) {
+         session_destroy();
+         header("Location: php/login.php");
+        exit;
+     }
 
     $ownAccount = false;
     if (isset($_GET['user_id']) && $_GET['user_id'] == $user_id) {
@@ -58,7 +61,7 @@
         <?php if ($user_role === "admin" || $user_role === "moderator") : ?>
             <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? 'validate.php' : 'php/validate.php'; ?>" class="navbar__button">Validate</a>
         <?php endif; ?>
-        <a href="<?php echo __DIR__ . '/logout.php;' ?>" class="navbar__button navbar__button--logout">Log out</a>
+        <a href="<?php echo strpos($_SERVER['REQUEST_URI'], 'php/') !== false ? '../php/logout.php' : 'php/logout.php'; ?>" class="navbar__button navbar__button--logout">Log out</a>
     </div>
 </nav>
 
