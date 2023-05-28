@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
     </div>
 
-    <div class="prompt-cards">
+    <div class="prompt-cards" style="margin-top:300px">
         <?php if (empty($prompts)) : ?>
             <p class="prompt-cards-not-found">No prompts found.</p>
         <?php else : ?>
