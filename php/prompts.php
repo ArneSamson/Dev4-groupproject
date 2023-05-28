@@ -27,6 +27,11 @@ if (isset($_GET['clear'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $promptId = isset($_POST['promptId']) ? $_POST['promptId'] : null;
     $likes = isset($_POST['likes']) ? $_POST['likes'] : 0;
+
+    //if likes is < 0 set it to 0
+    if ($likes < 0) {
+        $likes = 0;
+    }
   
     if ($promptId !== null) {
         // Update the likes in the database
@@ -53,8 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>AI Prompt Home</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../media/favicon/icon.png" type="image/x-icon"/>
-
-</head>
+    <script src="../ajax/like.js"></script>
 </head>
 <body>
     <?php include_once("navbar.php"); ?>
@@ -72,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="filter__section-title">Model</div>
             <label><input type="checkbox" name="model[]" value="all" <?php echo in_array("all", $selectedModels) ? "checked" : ""; ?>> All</label>
             <label><input type="checkbox" name="model[]" value="dalle" <?php echo in_array("dalle", $selectedModels) ? "checked" : ""; ?>> Dalle</label>
-            <label><input type="checkbox" name="model[]" value="midjourney" <?php echo in_array("midjourney", $selectedModels) ? "checked" : ""; ?>> Midjourney</label>
+            <label><input type="checkbox" name="model[]" value="midjourney" <?php echo in_array("midjourney", $selectedModels) ? "checked" : ""; ?>>
             <label><input type="checkbox" name="model[]" value="stablediffusion" <?php echo in_array("stable_diffusion", $selectedModels) ? "checked" : ""; ?>> Stable Diffusion</label>
             <label><input type="checkbox" name="model[]" value="lexica" <?php echo in_array("lexica", $selectedModels) ? "checked" : ""; ?>> Lexica</label>
             </div>
@@ -90,38 +94,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
     </div>
 
-        <div class="prompt-cards">
-            <?php if (empty($prompts)) : ?>
-                <p class="prompt-cards-not-found">No prompts found.</p>
-            <?php else : ?>
-                <?php foreach ($prompts as $prompt) : ?>
-                    <div class="prompt-card">
-                        <?php
-                        $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
-                        $imagePath = "../media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
-                        ?>
-                        <a href="promptDetails.php?id=<?php echo $prompt['id']; ?>">
-                            <div class="prompt-card__image">
-                                <div class="prompt-card__model"><?php echo $prompt['model']; ?></div>
-                                <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
-                            </div>
-                            <div class="prompt-card__details">
-                                <div class="prompt-card__name"><?php echo $prompt['name']; ?></div>
-                                <div class="prompt-card__price"><?php echo "€ " . $prompt['price']; ?></div>
-                            </div>
-                        <script src="../ajax/like.js"></script>
-                        </a>
-                        <button class="likeButton" data-prompt-id="<?php echo $prompt['id']; ?>" data-likes="<?php echo $prompt['likes']; ?>" onclick="updatePromptLikes(this)">
-                            Like
-                        </button>
-                        <p class="likeCount"><?php echo $prompt['likes']." likes"; ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            </div>
-
+    <div class="prompt-cards">
+        <?php if (empty($prompts)) : ?>
+            <p class="prompt-cards-not-found">No prompts found.</p>
+        <?php else : ?>
+            <?php foreach ($prompts as $prompt) : ?>
+                <div class="prompt-card">
+                    <?php
+                    $fileExtension = pathinfo($prompt['pictures'], PATHINFO_EXTENSION);
+                    $imagePath = "../media/" . basename($prompt['pictures'], ".tmp") . "." . $fileExtension;
+                    ?>
+                    <a href="promptDetails.php?id=<?php echo $prompt['id']; ?>">
+                        <div class="prompt-card__image">
+                            <div class="prompt-card__model"><?php echo $prompt['model']; ?></div>
+                            <img src="<?php echo $imagePath; ?>" alt="Prompt Image">
+                        </div>
+                        <div class="prompt-card__details">
+                            <div class="prompt-card__name"><?php echo $prompt['name']; ?></div>
+                            <div class="prompt-card__price"><?php echo "€ " . $prompt['price']; ?></div>
+                        </div>
+                    </a>
+                    <button class="likeButton" data-prompt-id="<?php echo $prompt['id']; ?>" data-likes="<?php echo $prompt['likes']; ?>" onclick="updatePromptLikes(this)">
+                        Like
+                    </button>
+                    <p class="likeCount"><?php echo $prompt['likes']." likes"; ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
+</div>
 </body>
-
-
 </html>
